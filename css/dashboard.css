@@ -466,6 +466,44 @@ main .dashboard .cardcolumn {
     align-self: baseline;
 }
 
+main .dashboard .cardNumbers {
+    grid-column: 1/4;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    gap: var(--o-padding);
+    -ms-flex-item-align: baseline;
+    align-self: baseline;
+    text-align: center;
+}
+main .dashboard .cardNumbers .card .title{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+main .dashboard .cardNumbers .content{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    min-height: 100px;
+    height: 20vh;
+    max-height: 150px;
+    align-items: center;
+    justify-content: center;
+}
+
+
+main .dashboard .cardNumbers .card {
+    width: 50%;
+}
+
+
+
 main .dashboard .cardcolumn .card .content {
     font-size: 14px;
 }
@@ -549,6 +587,25 @@ main .side {
 
 main .dashboard .card,
 main .side .card {
+    position: relative;
+    color: var(--c-elements);
+    padding: var(--i-padding);
+    background: var(--c-bg-elements);
+    border-radius: var(--radius);
+    -webkit-box-shadow: 0 4px 8px #0003;
+    box-shadow: 0 4px 8px #0003;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom: solid 2px #0003;
+}
+
+main .dashboard .maincard {
     position: relative;
     color: var(--c-elements);
     padding: var(--i-padding);

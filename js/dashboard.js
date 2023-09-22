@@ -3,10 +3,11 @@ const search = document.querySelector(".search label");
 const expander = document.querySelector("main .menu .expander");
 const current = document.querySelector(".current");
 const menuItems = document.querySelectorAll("main .menu .primary .menu-item");
-const mainCards = document.querySelectorAll("main .dashboard .card");
+const mainCards = document.querySelectorAll("main .dashboard .random");
 const weatherContent = document.querySelector(".side .weather .content");
 const date = document.querySelector("main .side .date");
 const time = document.querySelector("main .side .time");
+const loc = document.querySelector("main .side .location");
 
 // Fix :active touch on mobiles
 document.addEventListener("touchstart", () => { }, true);
@@ -26,9 +27,10 @@ menuItems.forEach((item) => {
 // Set Date, Time
 const today = new Date();
 const formatZero = (value) => value < 10 ? '0' + value : value;
+const ampm = today.getHours() >= 12 ? 'pm' : 'am';
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 date.innerText = `${today.getDate()} ${months[today.getMonth()]}, ${today.getFullYear()}`;
-time.innerText = `${today.getHours()}:${formatZero(today.getMinutes())}`;
+time.innerText = `${today.getHours()}:${formatZero(today.getMinutes())} ${ampm.toUpperCase()}`;
 
 // Populate News
 const dummyData = () => {
@@ -44,19 +46,46 @@ const dummyData = () => {
     });
 };
 
-// Weather Data for Athens from open-meteo.com
-const weatherData = async () => {
-    const weather =
-        "https://api.open-meteo.com/v1/forecast?latitude=10.3099&longitude=123.893&hourly=temperature_2m&current_weather=true";
-    const res = await fetch(weather);
-    const data = await res.json();
 
-    if (data) {
-        weatherContent.innerHTML = `
-    ${data.current_weather.temperature}<span class='celsius'>°C</span>
-    `;
-    }
+function weather() {
+    
+    $.ajax({
+
+        url: "http://ip-api.com/json/",
+        type: "GET",
+        success: function (response) {
+            if (response) {
+                weatherData(response);
+            }  
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });
 };
+// Weather Data for Athe    ns from open-meteo.com
+function weatherData(location) {
+    const latitude = location.lat;
+    const longitude = location.lon;
+    $.ajax({
 
+        url: "https://api.open-meteo.com/v1/forecast?latitude="+latitude+"&longitude="+longitude+"&hourly=temperature_2m&current_weather=true",
+        type: "GET",
+        success: function (response) {
+            console.log(response);
+            if (response) {
+                weatherContent.innerHTML = `
+            ${response.current_weather.temperature}<span class='celsius'>°C</span>
+                
+            `;
+            loc.innerHTML = `<span class="iconoir-pin-alt"></span> ${location.city}, ${location.country}`;
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+    });   
+}
 dummyData();
-weatherData();
+
+console.log(weather());

@@ -3,9 +3,9 @@
 <main class="container">
     <div class="menu">
         <div class="avatar">
-            <img class="thumb" src="https://source.boringavatars.com/pixel/120/<?php echo $_SESSION['username'];?>?colors=26a653,2a1d8f,79646a" width="60" />
+            <img class="thumb" src="https://source.boringavatars.com/pixel/120/<?php echo $_SESSION['username']; ?>?colors=26a653,2a1d8f,79646a" width="60" />
 
-            <span class="name">@<?php echo $_SESSION['username'];?></span>
+            <span class="name">@<?php echo $_SESSION['username']; ?></span>
         </div>
         <nav class="primary">
             <a href="#" class="menu-item active">
@@ -57,20 +57,28 @@
         </nav>
     </div>
     <div class="dashboard">
-        <div class="cardcolumn">
+        <div class="cardNumbers">
             <div class="card">
                 <header>
-                    <a class="title" href="#"></a>
-                    <span class="iconoir-more-vert"></span>
+                    <a class="title" href="#">Total Suppliers</a>
                 </header>
-                <div class="content"></div>
-                <div class="meta">
-                    <span class="iconoir-pin"></span>
-                    <span class="iconoir-eye-off"></span>
-                    <span class="iconoir-share-ios"></span>
-                </div>
+                <div class="content bg-opacity-30 rounded-lg bg-green-200 border border-green-300 h-50">100</div>
             </div>
             <div class="card">
+                <header>
+                    <a class="title" href="#">Total Items</a>
+                </header>
+                <div class="content bg-opacity-30 rounded-lg bg-red-200 border border-red-300 h-50">1,500</div>
+            </div>
+            <div class="card">
+                <header>
+                    <a class="title center" href="#">Idk?</a>
+                </header>
+                <div class="content bg-opacity-30 rounded-lg bg-blue-200 border border-blue-300 h-50">300</div>
+            </div>
+        </div>
+        <div class="cardcolumn">
+            <div class="card random">
                 <header>
                     <a class="title" href="#"></a>
                     <span class="iconoir-more-vert"></span>
@@ -84,19 +92,8 @@
             </div>
         </div>
         <div class="cardcolumn">
-            <div class="card">
-                <header>
-                    <a class="title" href="#"></a>
-                    <span class="iconoir-more-vert"></span>
-                </header>
-                <div class="content"></div>
-                <div class="meta">
-                    <span class="iconoir-pin"></span>
-                    <span class="iconoir-eye-off"></span>
-                    <span class="iconoir-share-ios"></span>
-                </div>
-            </div>
-            <div class="card">
+
+            <div class="card random">
                 <header>
                     <a class="title" href="#"></a>
                     <span class="iconoir-more-vert"></span>
@@ -110,19 +107,8 @@
             </div>
         </div>
         <div class="cardcolumn">
-            <div class="card">
-                <header>
-                    <a class="title" href="#"></a>
-                    <span class="iconoir-more-vert"></span>
-                </header>
-                <div class="content"></div>
-                <div class="meta">
-                    <span class="iconoir-pin"></span>
-                    <span class="iconoir-eye-off"></span>
-                    <span class="iconoir-share-ios"></span>
-                </div>
-            </div>
-            <div class="card">
+
+            <div class="card random">
                 <header>
                     <a class="title" href="#"></a>
                     <span class="iconoir-more-vert"></span>
@@ -142,13 +128,13 @@
             <div class="content"></div>
             <div class="meta">
                 <span class="location">
-                    <span class="iconoir-pin-alt"></span>
-                    Lapu-Lapu City, Cebu, Philippines
+
+
                 </span>
                 <div class="datetime">
                     <span class="iconoir-calendar"></span>
-                    <span class="date">21 July, 2022</span>
-                    <span class="time">5:01</span>
+                    <span class="date"></span>
+                    <span class="time"></span>
                 </div>
             </div>
         </div>
