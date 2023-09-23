@@ -435,6 +435,7 @@ main .dashboard {
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
     padding: var(--o-padding);
+    min-height: 500px;
     display: -ms-grid;
     display: grid;
     grid-gap: var(--o-padding);
@@ -465,21 +466,20 @@ main .dashboard .cardcolumn {
     -ms-flex-item-align: baseline;
     align-self: baseline;
 }
-
 main .dashboard .cardNumbers {
-    grid-column: 1/4;
+
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: horizontal;
+    -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
+    -ms-flex-direction: column;
+    flex-direction: column;
     gap: var(--o-padding);
     -ms-flex-item-align: baseline;
     align-self: baseline;
-    text-align: center;
 }
+
 main .dashboard .cardNumbers .card .title{
     white-space: nowrap;
     overflow: hidden;
@@ -499,7 +499,7 @@ main .dashboard .cardNumbers .content{
 
 
 main .dashboard .cardNumbers .card {
-    width: 50%;
+    width: 100%;
 }
 
 
@@ -583,6 +583,7 @@ main .side {
     -webkit-box-ordinal-group: 0;
     -ms-flex-order: -1;
     order: -1;
+    min-height: 500px;
 }
 
 main .dashboard .card,
@@ -788,5 +789,26 @@ main .side .weather .meta .datetime .time {
         border-top: unset;
         margin-top: 60px;
         border-radius: 0 0 var(--radius) 0;
+    }
+
+    main .dashboard .cardNumbers {
+        
+        grid-column: 1 / 4;
+        -ms-grid-column: 1 / 4;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        gap: var(--o-padding);
+        -ms-flex-item-align: baseline;
+        align-self: baseline;
+        text-align: center;
+    }
+
+    main .dashboard .cardNumbers .card {
+        width: 50%;
     }
 }
