@@ -37,9 +37,7 @@ $("#loginBtn").click(function () {
         url: "backend/action.php",
         type: "POST",
         data: values,
-        dataType: 'text',
-        success: function (response) {
-            var data = $.parseJSON(response);
+        success: function (data) {
             if (data.code == 200) {
                 Alpine.store('toasts').createToast(
                     data.message,

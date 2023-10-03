@@ -72,7 +72,7 @@ function weatherData(location) {
         url: "https://api.open-meteo.com/v1/forecast?latitude="+latitude+"&longitude="+longitude+"&hourly=temperature_2m&current_weather=true",
         type: "GET",
         success: function (response) {
-            console.log(response);
+            //console.log(response);
             if (response) {
                 weatherContent.innerHTML = `
             ${response.current_weather.temperature}<span class='celsius'>°C</span>
@@ -88,4 +88,4 @@ function weatherData(location) {
 }
 dummyData();
 
-console.log(weather());
+weather();

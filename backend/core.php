@@ -8,9 +8,11 @@
     
         public function Login($username, $password){
             $key = "SELECT * FROM accounts WHERE username = '$username' AND password = '$password'";
-            $result = mysqli_query($this->database, $key);
-            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            $count = mysqli_num_rows($result);
+
+            $statement = $this->database->prepare($key);
+            $statement->execute();
+            $result = $statement->get_result();
+            $count = $result->num_rows;
 
             if($count >= 1){
                 $_SESSION['username'] = $username;
@@ -29,10 +31,66 @@
         }
 
         public function getSettings(){
-            $key = "SELECT * FROM settings WHERE id=1";
-            $result = mysqli_query($this->database, $key);
-            $rows = mysqli_fetch_array($result, MYSQLI_ASSOC);
+            $key = "SELECT * FROM settings WHERE id = 1";
+            $statement = $this->database->prepare($key);
+            $statement->execute();
+            $result = $statement->get_result();
+            $rows = $result->fetch_assoc();
+            return $rows;
+        }
+    }
 
+
+    class Notification {
+        private $database;
+
+        function __construct($db) {
+            $this->database = $db;
+        }
+
+        
+        public function timeElapsedSinceNow( $datetime, $full = false )
+        {
+            $now = new DateTime;
+            $then = new DateTime( $datetime );
+            $diff = (array) $now->diff( $then );
+        
+            $diff['w']  = floor( $diff['d'] / 7 );
+            $diff['d'] -= $diff['w'] * 7;
+        
+            $string = array(
+                'y' => 'year',
+                'm' => 'month',
+                'w' => 'week',
+                'd' => 'day',
+                'h' => 'hour',
+                'i' => 'minute',
+                's' => 'second',
+            );
+        
+            foreach( $string as $k => & $v )
+            {
+                if ( $diff[$k] )
+                {
+                    $v = $diff[$k] . ' ' . $v .( $diff[$k] > 1 ? 's' : '' );
+                }
+                else
+                {
+                    unset( $string[$k] );
+                }
+            }
+        
+            if ( ! $full ) $string = array_slice( $string, 0, 1 );
+            return $string ? implode( ', ', $string ) . ' ago' : 'just now';
+        }
+        
+        public function getNotifications($range){
+            $key = "SELECT * FROM notifications WHERE id > ? ORDER BY id ASC LIMIT 5";
+            $statement = $this->database->prepare($key);
+            $statement->bind_param("i", $range);
+            $statement->execute();
+            $result = $statement->get_result();
+            $rows = $result->fetch_all(MYSQLI_ASSOC);
             return $rows;
         }
     }
