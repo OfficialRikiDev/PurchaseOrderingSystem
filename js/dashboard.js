@@ -2,8 +2,9 @@ const container = document.querySelector("main");
 const search = document.querySelector(".search label");
 const expander = document.querySelector("main .menu .expander");
 const current = document.querySelector(".current");
+const dashboard = document.querySelector(".dashboard");
 const menuItems = document.querySelectorAll("main .menu .primary .menu-item");
-const mainCards = document.querySelectorAll("main .dashboard .random");
+
 const weatherContent = document.querySelector(".side .weather .content");
 const date = document.querySelector("main .side .date");
 const time = document.querySelector("main .side .time");
@@ -15,12 +16,38 @@ document.addEventListener("touchstart", () => { }, true);
 // Search Expand
 search.addEventListener("click", () => container.classList.toggle("search"));
 
+
+var lastContent = "Dashboard";
 // Main Menu
-menuItems.forEach((item) => {
+menuItems.forEach((item) => { 
+    
     item.addEventListener("click", () => {
-        current.innerText = item.querySelector(".desc").textContent;
-        menuItems.forEach((item) => item.classList.remove("active"));
-        item.classList.add("active");
+        var current = item.querySelector(".desc").textContent;
+        var content = function() {
+            var result;
+            $.ajax({
+                async: false,
+                url:"backend/action.php",
+                method: "POST",
+                data:{getView : current},
+                success: function(data){
+                    result = data;
+                }
+            });
+            return result;
+        }();
+        if(lastContent.toLowerCase() != current.toLowerCase()){
+            current.innerText = current;
+            if (current == "Dashboard") {
+                dashboard.innerHTML = $(content).find(".dashboard").html();
+                dummyData();
+            }else{
+                dashboard.innerHTML = content;
+            }
+            menuItems.forEach((item) => item.classList.remove("active"));
+            item.classList.add("active");
+            lastContent = current;
+        }
     });
 });
 
@@ -34,6 +61,7 @@ time.innerText = `${today.getHours()}:${formatZero(today.getMinutes())} ${ampm.t
 
 // Populate News
 const dummyData = () => {
+    const mainCards = document.querySelectorAll("main .dashboard .random");
     mainCards.forEach((card, i) => {
         card.querySelector(".title").innerText =
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
@@ -48,7 +76,6 @@ const dummyData = () => {
 
 
 function weather() {
-    
     $.ajax({
 
         url: "http://ip-api.com/json/",
@@ -63,6 +90,7 @@ function weather() {
         }
     });
 };
+
 // Weather Data for Athe    ns from open-meteo.com
 function weatherData(location) {
     const latitude = location.lat;
@@ -75,9 +103,7 @@ function weatherData(location) {
             //console.log(response);
             if (response) {
                 weatherContent.innerHTML = `
-            ${response.current_weather.temperature}<span class='celsius'>°C</span>
-                
-            `;
+            ${response.current_weather.temperature}<span class='celsius'>°C</span>`;
             loc.innerHTML = `<span class="iconoir-pin-alt"></span> ${location.city}, ${location.country}`;
             }
         },
@@ -86,6 +112,8 @@ function weatherData(location) {
         }
     });   
 }
+
+
 dummyData();
 
 weather();

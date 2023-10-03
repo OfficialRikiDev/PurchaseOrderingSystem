@@ -19,6 +19,10 @@
             }
         }
 
+        if(isset($_POST['getView'])){
+            echo $views->getView($_POST['getView']);
+        }
+
         if(isset($_POST['view'])){
             $range = mysqli_real_escape_string($database->connection, $_POST['range']);
             $data = $notifications->getNotifications($range);

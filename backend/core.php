@@ -94,4 +94,10 @@
             return $rows;
         }
     }
+
+    class Views {
+        public function getView($name) {
+            return @file_get_contents($_SERVER['DOCUMENT_ROOT']. "/views/{$name}.php") ? file_get_contents($_SERVER['DOCUMENT_ROOT']. "/views/{$name}.php") : "No content found.";
+        }
+    }
 ?>

@@ -1,6 +1,6 @@
 $(document).ready(function() {
     function load_notifications(view = '') {
-        console.log('Loading notifications');
+        //console.log('Loading notifications');
         $.ajax({
             url:"backend/action.php",
             method: "POST",
