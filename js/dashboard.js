@@ -16,6 +16,23 @@ document.addEventListener("touchstart", () => { }, true);
 // Search Expand
 search.addEventListener("click", () => container.classList.toggle("search"));
 
+function setInnerHTML(elm, html) {
+    elm.innerHTML = html;
+    
+    Array.from(elm.querySelectorAll("script"))
+    .forEach( oldScriptEl => {
+        const newScriptEl = document.createElement("script");
+        
+        Array.from(oldScriptEl.attributes).forEach( attr => {
+        newScriptEl.setAttribute(attr.name, attr.value) 
+        });
+        
+        const scriptText = document.createTextNode(oldScriptEl.innerHTML);
+        newScriptEl.appendChild(scriptText);
+        
+        oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
+    });
+}
 
 var lastContent = "Dashboard";
 // Main Menu
@@ -39,10 +56,10 @@ menuItems.forEach((item) => {
         if(lastContent.toLowerCase() != current.toLowerCase()){
             document.querySelector(".current").innerHTML = current;
             if (current == "Dashboard") {
-                dashboard.innerHTML = $(content).find(".dashboard").html();
+                setInnerHTML(dashboard, $(content).find(".dashboard").html());
                 dummyData();
             }else{
-                dashboard.innerHTML = content;
+                setInnerHTML(dashboard,content);
             }
             menuItems.forEach((item) => item.classList.remove("active"));
             item.classList.add("active");

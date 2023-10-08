@@ -443,14 +443,13 @@ main .dashboard {
     overflow: overlay;
 }
 
-main .dashboard::-webkit-scrollbar,
-main .side::-webkit-scrollbar {
+
+*::-webkit-scrollbar {
     width: 2px;
     background: var(--c-darker);
 }
 
-main .dashboard::-webkit-scrollbar-thumb,
-main .side::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
     background: var(--c-bg-elements);
 }
 
