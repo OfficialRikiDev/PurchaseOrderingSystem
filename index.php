@@ -14,7 +14,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/autoload.php');
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <title><?php echo $websettings->getSettings()['website_name']; ?></title>
 </head>
-<body>
+<body class="antialiased">
 <?php
     if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn']){
         include_once(__DIR__ . '/views/dashboard.php');

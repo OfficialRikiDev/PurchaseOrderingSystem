@@ -778,7 +778,7 @@ main .side .weather .meta .datetime .time {
         border-top: unset;
         height: calc(100vh - (2 * var(--o-padding)) - 60px);
         -ms-grid-columns: 1fr var(--o-padding) 1fr var(--o-padding) 1fr;
-        grid-template-columns: repeat(3, 1fr);
+        /**grid-template-columns: repeat(3, 1fr);**/
     }
 
     main .side {

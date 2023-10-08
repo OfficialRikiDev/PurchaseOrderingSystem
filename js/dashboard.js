@@ -1,7 +1,7 @@
 const container = document.querySelector("main");
 const search = document.querySelector(".search label");
 const expander = document.querySelector("main .menu .expander");
-const current = document.querySelector(".current");
+
 const dashboard = document.querySelector(".dashboard");
 const menuItems = document.querySelectorAll("main .menu .primary .menu-item");
 
@@ -37,7 +37,7 @@ menuItems.forEach((item) => {
             return result;
         }();
         if(lastContent.toLowerCase() != current.toLowerCase()){
-            current.innerText = current;
+            document.querySelector(".current").innerHTML = current;
             if (current == "Dashboard") {
                 dashboard.innerHTML = $(content).find(".dashboard").html();
                 dummyData();
@@ -54,10 +54,15 @@ menuItems.forEach((item) => {
 // Set Date, Time
 const today = new Date();
 const formatZero = (value) => value < 10 ? '0' + value : value;
-const ampm = today.getHours() >= 12 ? 'pm' : 'am';
+var hours = today.getHours();
+var minutes = today.getMinutes();
+var ampm = hours >= 12 ? 'pm' : 'am';
+hours = hours % 12;
+hours = hours ? hours : 12; // the hour '0' should be '12'
+minutes = minutes < 10 ? '' + minutes : minutes;
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 date.innerText = `${today.getDate()} ${months[today.getMonth()]}, ${today.getFullYear()}`;
-time.innerText = `${today.getHours()}:${formatZero(today.getMinutes())} ${ampm.toUpperCase()}`;
+time.innerText = `${hours}:${formatZero(minutes)} ${ampm.toUpperCase()}`;
 
 // Populate News
 const dummyData = () => {

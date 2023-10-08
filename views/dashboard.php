@@ -14,31 +14,31 @@
             </a>
             <a href="#" class="menu-item">
                 <span class="iconoir-google-docs"></span>
-                <span class="desc">Reports</span>
+                <span class="desc truncate">Purchase Order</span>
             </a>
             <a href="#" class="menu-item">
                 <span class="iconoir-table"></span>
-                <span class="desc">Stats</span>
+                <span class="desc truncate">Inventory</span>
             </a>
             <a href="#" class="menu-item">
                 <span class="iconoir-bag"></span>
-                <span class="desc">Cart</span>
+                <span class="desc truncate">Cart</span>
             </a>
             <a href="#" class="menu-item">
                 <span class="iconoir-user"></span>
-                <span class="desc">Clients</span>
+                <span class="desc truncate">Clients</span>
             </a>
             <a href="#" class="menu-item">
                 <span class="iconoir-leaderboard"></span>
-                <span class="desc">Analytics</span>
+                <span class="desc truncate">Analytics</span>
             </a>
             <a href="#" class="menu-item">
                 <span class="iconoir-settings"></span>
-                <span class="desc">Settings</span>
+                <span class="desc truncate">Settings</span>
             </a>
             <a href="/logout.php" class="menu-item">
                 <span class="iconoir-log-out"></span>
-                <span class="desc">Logout</span>
+                <span class="desc truncate">Logout</span>
             </a>
         </nav>
         <span class="expander iconoir-arrow-right"></span>
