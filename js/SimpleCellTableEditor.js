@@ -491,7 +491,7 @@ class SimpleTableCellEditor {
         return {
             renderValue: (elem, formattedNewVal) => { $(elem).text(formattedNewVal); },
             renderEditor: (elem, oldVal) => {
-                $(elem).html(`<input class="m-auto h-5 relative" type='text'>`);
+                $(elem).html(`<input class="m-auto text-center h-5 relative" type='text'>`);
                 //Focus part
                 var input = $(elem).find('input');
                 input.focus();

@@ -1,6 +1,3 @@
-
-
-
 <div class="bg-white shadow-lg hover:shadow-xl rounded-md overflow-auto">
     <table id="rfTable" class="table flex table-auto px=2 w-full border-separate leading-normal">
         <thead class="uppercase text-gray-600 text-xs font-semibold bg-gray-200">
@@ -26,212 +23,27 @@
                 </th>
             </tr>
         </thead>
-        <tbody class="flex-1 text-gray-700 sm:flex-none">
+        <tbody class="rfTableBody flex-1 text-gray-700 sm:flex-none">
             <tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap">
-                <td class="p-1 w-8 text-center border border-1">
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">1</div>
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">pc</div>
-                </td>
-                <td class="rfEditable p-1 border border-1">
-                    <div class="w-full">Legeed</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">Kanang sirkol na motuyok</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-                <td class="p-1 text-right font-bold border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-            </tr>
-            <tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap">
-                <td class="p-1 w-8 text-center border border-1">
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">1</div>
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">pc</div>
-                </td>
-                <td class="rfEditable p-1 border border-1">
-                    <div class="w-full">Legeed</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">Kanang sirkol na motuyok</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-                <td class="p-1 text-right font-bold border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-            </tr>
-            <tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap">
-                <td class="p-1 w-8 text-center border border-1">
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">1</div>
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">pc</div>
-                </td>
-                <td class="rfEditable p-1 border border-1">
-                    <div class="w-full">Legeed</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">Kanang sirkol na motuyok</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-                <td class="p-1 text-right font-bold border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-            </tr>
-            <tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap">
-                <td class="p-1 w-8 text-center border border-1">
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">1</div>
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">pc</div>
-                </td>
-                <td class="rfEditable p-1 border border-1">
-                    <div class="w-full">Legeed</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">Kanang sirkol na motuyok</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-                <td class="p-1 text-right font-bold border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-            </tr>
-            <tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap">
-                <td class="p-1 w-8 text-center border border-1">
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">1</div>
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">pc</div>
-                </td>
-                <td class="rfEditable p-1 border border-1">
-                    <div class="w-full">Legeed</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">Kanang sirkol na motuyok</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-                <td class="p-1 text-right font-bold border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-            </tr>
-            <tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap">
-                <td class="p-1 w-8 text-center border border-1">
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">1</div>
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">pc</div>
-                </td>
-                <td class="rfEditable p-1 border border-1">
-                    <div class="w-full">Legeed</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">Kanang sirkol na motuyok</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-                <td class="p-1 text-right font-bold border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-            </tr>
-            <tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap">
-                <td class="p-1 w-8 text-center border border-1">
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">1</div>
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">pc</div>
-                </td>
-                <td class="rfEditable p-1 border border-1">
-                    <div class="w-full">Legeed</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">Kanang sirkol na motuyok</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-                <td class="p-1 text-right font-bold border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-            </tr>
-            <tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap">
-                <td class="p-1 w-8 text-center border border-1">
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">1</div>
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">pc</div>
-                </td>
-                <td class="rfEditable p-1 border border-1">
-                    <div class="w-full">Legeed</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">Kanang sirkol na motuyok</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-                <td class="p-1 text-right font-bold border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-            </tr>
-            <tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap">
-                <td class="p-1 w-8 text-center border border-1">
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">1</div>
-                </td>
-                <td class="rfEditable p-1 text-center border border-1">
-                    <div class="w-full">pc</div>
-                </td>
-                <td class="rfEditable p-1 border border-1">
-                    <div class="w-full">Legeed</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">Kanang sirkol na motuyok</div>
-                </td>
-                <td class="p-1 border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
-                <td class="p-1 text-right font-bold border border-1">
-                    <div class="w-full">$200.20</div>
-                </td>
+                <td class="p-1 w-10 text-center border-slate-500 border border-1"></td>
+                <td class="rfEditableNum p-1 text-center border-slate-500 border border-1">1</td>
+                <td class="rfDropDownUnits p-1 text-center border-slate-500 border border-1">pc</td>
+                <td class="rfDropDownItems p-1 text-center border-slate-500 border border-1">Legeed</td>
+                <td class="rfEditable p-1 border border-slate-500 border-1">Kanang sirkol na motuyok</td>
+                <td class="p-1 border border-1 border-slate-500">$200.20</td>
+                <td class="p-1 text-right font-bold border-slate-500 border border-1">$200.20</td>
             </tr>
 
-            
-            
+
+
+
+        </tbody>
+
+        <tfoot class="flex-1 text-gray-700 sm:flex-none">
             <tr class="flex h-8 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap">
 
                 <td colspan="6" class="p-1 text-right font-semibold border border-1">
-                    <div class="w-full"><button class="mr-5 px-2 rounded-md bg-sky-600 text-white">Add row</button>Sub Total</div>
+                    <div class="w-full"><button class="addRowBtn mr-5 px-2 rounded-md bg-sky-600 text-white">Add row</button>Sub Total</div>
                 </td>
                 <td class="p-1 font-bold border border-1">
                     <div class="w-full"></div>
@@ -264,7 +76,7 @@
                     <div class="w-full"></div>
                 </td>
             </tr>
-        </tbody>
+        </tfoot>
     </table>
 </div>
 
