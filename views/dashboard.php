@@ -159,6 +159,7 @@
                     <span class="iconoir-share-ios"></span>
                 </div>
             </div>
+            
         </div>
     </div>
     <div class="side">

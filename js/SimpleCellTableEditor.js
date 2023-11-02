@@ -8,9 +8,9 @@ class SimpleTableCellEdition {
 
     constructor(elem, _cellParams) {
 
-        this.Elem       = elem;
+        this.Elem = elem;
         this.oldContent = $(elem).html();
-        this.oldValue   = _cellParams.internals.extractValue(elem);
+        this.oldValue = _cellParams.internals.extractValue(elem);
         this.cellParams = _cellParams;
     }
 
@@ -31,10 +31,10 @@ class SimpleTableCellEditor {
         // Add collection for the classes for processing later
         _instance.editableClasses = [];
 
-        this.tableId        = _tableId ? _tableId : 'table' 
-        this.active         = true;
-        this.params         = _instance._GetExtendedEditorParams(_params); //Load default params over given ones
-        this.CellEdition    = null; //CellEdition contains the current edited cell
+        this.tableId = _tableId ? _tableId : 'table'
+        this.active = true;
+        this.params = _instance._GetExtendedEditorParams(_params); //Load default params over given ones
+        this.CellEdition = null; //CellEdition contains the current edited cell
 
         //If DataTable : Handling DataTable reload event
         this._TryHandleDataTableReloadEvent();
@@ -53,7 +53,7 @@ class SimpleTableCellEditor {
     }
 
 
-    SetEditable(elem, _cellParams, excludeClass="uneditable") {
+    SetEditable(elem, _cellParams, excludeClass = "uneditable") {
 
         var _instance = this;
 
@@ -66,16 +66,16 @@ class SimpleTableCellEditor {
         //If click on td (not already in edit ones)
         $(elem).on('click', function (evt) {
 
-            if(!_instance.active) 
-                return;
-            
-            if ( $(this).hasClass(_instance.params.inEditClass) ) 
+            if (!_instance.active)
                 return;
 
-            if ( $(this).hasClass(excludeClass) ) 
+            if ($(this).hasClass(_instance.params.inEditClass))
                 return;
 
-            if ( $(this).closest('table').hasClass(excludeClass) ) 
+            if ($(this).hasClass(excludeClass))
+                return;
+
+            if ($(this).closest('table').hasClass(excludeClass))
                 return
 
             _instance._EditCell(this, cellParams);
@@ -85,7 +85,7 @@ class SimpleTableCellEditor {
 
         $(elem).on('keydown', function (event) {
 
-            if(!_instance.active)
+            if (!_instance.active)
                 return;
 
             if (!$(this).hasClass(_instance.params.inEditClass))
@@ -110,7 +110,7 @@ class SimpleTableCellEditor {
         //If click on td (not already in edit ones)
         $(`#${_instance.tableId}`).on('click', `td.${editableClass}:not(.${_instance.params.inEditClass})`, function () {
 
-            if(!_instance.active)
+            if (!_instance.active)
                 return;
 
             _instance._EditCell(this, cellParams);
@@ -118,8 +118,8 @@ class SimpleTableCellEditor {
 
 
         $(`#${_instance.tableId}`).on('keydown', `td.${editableClass}.${_instance.params.inEditClass}`, function (event) {
-            
-            if(!_instance.active)
+
+            if (!_instance.active)
                 return;
 
             _instance._HandleKeyPressed(event, this, cellParams);
@@ -127,12 +127,12 @@ class SimpleTableCellEditor {
 
     }
 
-    Toggle(_active){
+    Toggle(_active) {
 
-        if(typeof(_active) === 'undefined')
+        if (typeof (_active) === 'undefined')
             _active = !this.active;
 
-            this.active = _active;
+        this.active = _active;
 
     }
 
@@ -265,7 +265,7 @@ class SimpleTableCellEditor {
         //Extract old/current value from cell
         var oldVal = cellParams.internals.extractValue(elem);
 
-        //flagging working cell
+        //Flagging working cell
         $(elem).addClass(this.params.inEditClass);
 
         //Rendering 
@@ -297,15 +297,15 @@ class SimpleTableCellEditor {
         //Get new val
         var newVal = cellParams.internals.extractEditorValue(elem);
 
-        //clean cell
+        //Clean cell
         $(elem).removeClass(this.params.inEditClass);
         $(elem).html('');
 
-        //if validation method return false for new value AND value changed
+        //If validation method return false for new value AND value changed
         if (!cellParams.validation(newVal) || this.CellEdition.oldValue === newVal)
             keepChanges = false;
 
-        //format new value
+        //Format new value
         var formattedNewVal = cellParams.formatter(newVal);
 
         //Trigger on edit exited event
@@ -313,7 +313,7 @@ class SimpleTableCellEditor {
 
         if (keepChanges) {
 
-            //render new value in cell
+            //Render new value in cell
             cellParams.internals.renderValue(elem, formattedNewVal);
 
             //Trigger custom event
@@ -469,7 +469,7 @@ class SimpleTableCellEditor {
     _GetDefaultCellParams() {
 
         return {
-            validation: (value) => { return true; }, //method used to validate new value
+            validation: (value) => { return true; }, //Method used to validate new value
             formatter: (value) => { return value; }, //Method used to format new value
             keys: {
                 validation: [13],
@@ -509,5 +509,4 @@ class SimpleTableCellEditor {
     _isValidElem(elem) {
         return (elem !== null && typeof elem !== 'undefined' && $(elem).length > 0);
     }
-
 }

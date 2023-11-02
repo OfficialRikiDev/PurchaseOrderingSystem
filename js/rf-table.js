@@ -4,9 +4,9 @@ $(document).ready(function () {
     $(`.addRowBtn`).on('click', function(e) {
         const template = $(`<tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap">
             <td class="p-1 w-10 text-center border border-1 border-slate-800"></td>
-            <td class="rfEditableNum p-1 text-center border border-1 border-slate-800"></td>
-            <td class="rfDropDownUnits p-1 text-center border border-1 border-slate-800"></td>
-            <td class="rfDropDownItems p-1 text-center border border-1 border-slate-800"></td>
+            <td class="rfEditableNum p-1 text-center border border-1 border-slate-800">1</td>
+            <td class="rfDropDownUnits p-1 text-center border border-1 border-slate-800">pc/s</td>
+            <td class="rfDropDownItems p-1 text-center border border-1 border-slate-800">Legeed</td>
             <td class="rfEditable p-1 border border-1 border-slate-800"></td>
             <td class="p-1 border border-1 border-slate-800"></td>
             <td class="p-1 text-right font-bold border border-1 border-slate-800"></td>

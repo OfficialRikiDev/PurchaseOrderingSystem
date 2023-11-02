@@ -154,7 +154,7 @@ main .menu .avatar .name {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    width:100%;
+    width: 100%;
     text-align: center;
     user-select: none;
 }
@@ -465,6 +465,7 @@ main .dashboard .cardcolumn {
     -ms-flex-item-align: baseline;
     align-self: baseline;
 }
+
 main .dashboard .cardNumbers {
 
     display: -webkit-box;
@@ -479,13 +480,13 @@ main .dashboard .cardNumbers {
     align-self: baseline;
 }
 
-main .dashboard .cardNumbers .card .title{
+main .dashboard .cardNumbers .card .title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-main .dashboard .cardNumbers .content{
+main .dashboard .cardNumbers .content {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -791,7 +792,7 @@ main .side .weather .meta .datetime .time {
     }
 
     main .dashboard .cardNumbers {
-        
+
         grid-column: 1 / 4;
         -ms-grid-column: 1 / 4;
         display: -webkit-box;
@@ -805,6 +806,20 @@ main .side .weather .meta .datetime .time {
         -ms-flex-item-align: baseline;
         align-self: baseline;
         text-align: center;
+    }
+
+    main .dashboard .cardcolumn {
+
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        gap: var(--o-padding);
+        -ms-flex-item-align: baseline;
+        align-self: baseline;
     }
 
     main .dashboard .cardNumbers .card {
