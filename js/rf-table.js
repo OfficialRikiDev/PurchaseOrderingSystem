@@ -22,7 +22,7 @@ $(document).ready(function () {
     simpleEditor.SetEditableClass("rfDropDownUnits", {
         internals: {
             renderEditor: (elem, oldVal) => {
-                $(elem).html(`<select class="text-center text-gray-600">
+                $(elem).html(`<select class="select select-xs text-center">
                                     <option>mg</option>
                                     <option>g</option>
                                     <option>kg</option>
@@ -55,7 +55,8 @@ $(document).ready(function () {
     simpleEditor.SetEditableClass("rfDropDownItems", {
         internals: {
             renderEditor: (elem, oldVal) => {
-                $(elem).html(`<select class="text-gray-600">
+                $(elem).html(`<select class="select select-xs w-full max-w-xs">
+                                    <option disabled selected>Select Item</option>
                                     <option>Legeed</option>
                                     <option>Owell</option>
                                     <option>Tambotso</option>

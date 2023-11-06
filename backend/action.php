@@ -23,6 +23,42 @@
             echo $views->getView($_POST['getView']);
         }
 
+        if(isset($_POST['getProduct'])){
+            $data = $products->getProducts();
+            $content = "";
+            foreach($data as $p){
+                $content .= '
+                <tr>
+                <th>
+                    '.$p['id'].'
+                </th>
+                <td>
+                    <div class="flex items-center space-x-3">
+                        <div class="avatar">
+                            <div class="mask mask-squircle w-12 h-12">
+                                <img src="/assets/ligid.webp" alt="Avatar Tailwind CSS Component" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-bold">'.$p['name'].'</div>
+                            <div class="text-sm opacity-50">'.$p['brand'].'</div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    '.$p['company_name'].'
+                    <br />
+                    <span class="badge badge-ghost badge-sm">'.$p['contact_no'].'</span>
+                </td>
+                <td>'.$p['quantity'].'</td>
+                <th>
+                    <button class="btn btn-ghost btn-xs">Edit</button>
+                </th>
+            </tr>';
+            }
+            echo $content;
+        }
+
         if(isset($_POST['view'])){
             $range = mysqli_real_escape_string($database->connection, $_POST['range']);
             $data = $notifications->getNotifications($range);
@@ -54,5 +90,5 @@
             echo json_encode(array('count' => $count, 'notifications' => array_reverse($notifs)));
         }
     }
-    //header('Location: /');
+    
 ?>

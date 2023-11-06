@@ -8,5 +8,6 @@
     $authenticate = new Authenticate($database->connection);
     $websettings = new Website($database->connection);
     $notifications = new Notification($database->connection);
+    $products = new Products($database->connection);    
     $views = new Views();
 ?>

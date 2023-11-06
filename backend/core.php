@@ -13,9 +13,10 @@
             $statement->execute();
             $result = $statement->get_result();
             $count = $result->num_rows;
-
+            $rows = $result->fetch_assoc();
             if($count >= 1){
                 $_SESSION['username'] = $username;
+                $_SESSION['id'] = $rows['id'];
                 return true;
             }else{
                 return false;
@@ -95,10 +96,28 @@
         }
     }
 
+    class Products {
+        private $database;
+        function __construct($db) {
+            $this->database = $db;
+        }
+
+        public function getProducts(){
+            $key = "SELECT products.*, accounts.id as aid, accounts.company_name, accounts.contact_no FROM products INNER JOIN accounts ON products.supplier = accounts.id WHERE products.supplier = ? ORDER BY products.quantity ASC";
+            $statement = $this->database->prepare($key);
+            $statement->bind_param("i", $_SESSION['id']);
+            $statement->execute();
+            $result = $statement->get_result();
+            $rows = $result->fetch_all(MYSQLI_ASSOC);
+            return $rows;
+        }
+    }
+
     class Views {
         public function getView($name) {
             $name = preg_replace('/\s+/', '', $name);
             return @file_get_contents($_SERVER['DOCUMENT_ROOT']. "/views/{$name}.php") ? file_get_contents($_SERVER['DOCUMENT_ROOT']. "/views/{$name}.php") : "No content found.";
         }
     }
+    
 ?>

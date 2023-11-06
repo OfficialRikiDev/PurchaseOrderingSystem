@@ -1,4 +1,4 @@
-<div class="shadow-lg hover:shadow-xl rounded-md overflow-auto">
+<div class="rounded-md overflow-auto">
     <table id="rfTable" class="table flex table-auto px=2 w-full border-separate leading-normal">
         <thead class="uppercase  text-xs font-semibold bg-gray-200">
             <tr class="hidden md:table-row">
@@ -30,7 +30,7 @@
                 <td class="rfDropDownUnits p-1 text-center">-</td>
                 <td class="rfDropDownItems p-1 text-center ">Select Item</td>
                 <td class="rfEditable p-1"></td>
-                <td class="p-1  border-slate-500"></td>
+                <td class="p-1 "></td>
                 <td class="p-1 text-right font-bold"></td>
             </tr>
 
