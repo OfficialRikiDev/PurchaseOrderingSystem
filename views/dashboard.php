@@ -3,7 +3,7 @@
 <main class="container">
     <div class="menu">
         <div class="avatar">
-            <img class="thumb" src="https://source.boringavatars.com/pixel/120/<?php echo $_SESSION['username']; ?>?colors=26a653,2a1d8f,79646a" width="60" />
+            <img class="thumb" src="https://source.boringavatars.com/pixel/120/<?php echo $_SESSION['username']; ?>?colors=26a653,2a1d8f,79646a"  />
 
             <span class="name">@<?php echo $_SESSION['username']; ?></span>
         </div>
@@ -14,7 +14,7 @@
             </a>
             <a href="#" class="menu-item">
                 <span class="iconoir-google-docs"></span>
-                <span class="desc truncate">Purchase Order</span>
+                <span class="desc truncate">Request Form</span>
             </a>
             <a href="#" class="menu-item">
                 <span class="iconoir-table"></span>

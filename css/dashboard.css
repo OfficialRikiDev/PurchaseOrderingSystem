@@ -139,6 +139,7 @@ main .menu .avatar {
 main .menu .avatar .thumb {
     border-radius: 50%;
     width: 100%;
+    height: auto;
     max-width: 40px;
 }
 
@@ -506,6 +507,11 @@ main .dashboard .cardNumbers .card {
 
 main .dashboard .cardcolumn .card .content {
     font-size: 14px;
+    height: 220px;
+    overflow-y: scroll;
+    overflow-x:hidden;
+    text-overflow: clip;
+    padding-right: 5px;
 }
 
 main .dashboard .cardcolumn .card span {
@@ -589,6 +595,7 @@ main .side {
 main .dashboard .card,
 main .side .card {
     position: relative;
+    
     color: var(--c-elements);
     padding: var(--i-padding);
     background: var(--c-bg-elements);
@@ -606,6 +613,8 @@ main .side .card {
     border-bottom: solid 2px #0003;
 }
 
+
+
 main .dashboard .maincard {
     position: relative;
     color: var(--c-elements);
@@ -617,6 +626,7 @@ main .dashboard .maincard {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
@@ -813,6 +823,7 @@ main .side .weather .meta .datetime .time {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
+
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
         -ms-flex-direction: row;
@@ -824,5 +835,8 @@ main .side .weather .meta .datetime .time {
 
     main .dashboard .cardNumbers .card {
         width: 50%;
+    }
+    main .dashboard .card{
+        width: 250px;
     }
 }

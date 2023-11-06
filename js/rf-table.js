@@ -3,13 +3,13 @@ var table = $('.rf-table');
 $(document).ready(function () {
     $(`.addRowBtn`).on('click', function(e) {
         const template = $(`<tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap">
-            <td class="p-1 w-10 text-center border border-1 border-slate-800"></td>
-            <td class="rfEditableNum p-1 text-center border border-1 border-slate-800">1</td>
-            <td class="rfDropDownUnits p-1 text-center border border-1 border-slate-800">pc/s</td>
-            <td class="rfDropDownItems p-1 text-center border border-1 border-slate-800">Legeed</td>
-            <td class="rfEditable p-1 border border-1 border-slate-800"></td>
-            <td class="p-1 border border-1 border-slate-800"></td>
-            <td class="p-1 text-right font-bold border border-1 border-slate-800"></td>
+            <td class="p-1 w-10 text-center "></td>
+            <td class="rfEditableNum p-1 text-center ">1</td>
+            <td class="rfDropDownUnits p-1 text-center ">-</td>
+            <td class="rfDropDownItems p-1 text-center ">Select Item</td>
+            <td class="rfEditable p-1 "></td>
+            <td class="p-1 "></td>
+            <td class="p-1 text-right font-bold "></td>
         </tr>`);
 
         $(`.rfTableBody`).append(template);
@@ -22,12 +22,26 @@ $(document).ready(function () {
     simpleEditor.SetEditableClass("rfDropDownUnits", {
         internals: {
             renderEditor: (elem, oldVal) => {
-                $(elem).html(`<select>
-                                    <option>pc/s</option>
-                                    <option>pack/s</option>
-                                    <option>kg/s</option>
-                                    <option>ml/s</option>
-                                    
+                $(elem).html(`<select class="text-center text-gray-600">
+                                    <option>mg</option>
+                                    <option>g</option>
+                                    <option>kg</option>
+                                    <option>ml</option>
+                                    <option>cl</option>
+                                    <option>l</option>
+                                    <option>kl</option>
+                                    <option>mm</option>
+                                    <option>m</option>
+                                    <option>m²</option>
+                                    <option>m3</option>
+                                    <option>cm</option>
+                                    <option>km</option>
+                                    <option>mi</option>
+                                    <option>gal</option>
+                                    <option>lb</option>
+                                    <option>oz</option>
+                                    <option>fl oz</option>
+                                    <option>pc</option>
                                 </select>`);
 
                 $("select option").filter(function () {
@@ -41,7 +55,7 @@ $(document).ready(function () {
     simpleEditor.SetEditableClass("rfDropDownItems", {
         internals: {
             renderEditor: (elem, oldVal) => {
-                $(elem).html(`<select>
+                $(elem).html(`<select class="text-gray-600">
                                     <option>Legeed</option>
                                     <option>Owell</option>
                                     <option>Tambotso</option>

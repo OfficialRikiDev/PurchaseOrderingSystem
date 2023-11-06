@@ -126,7 +126,7 @@ function weatherData(location) {
             if (response) {
                 weatherContent.innerHTML = `
             ${response.current_weather.temperature}<span class='celsius'>°C</span>`;
-            loc.innerHTML = `<span class="iconoir-pin-alt"></span> ${location.city}, ${location.country}`;
+            loc.innerHTML = `<span class="iconoir-map-pin"></span> ${location.city}, ${location.country}`;
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
