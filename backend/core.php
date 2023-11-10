@@ -111,6 +111,15 @@
             $rows = $result->fetch_all(MYSQLI_ASSOC);
             return $rows;
         }
+
+        public function listProducts(){
+            $key = "SELECT products.*, accounts.id as aid, accounts.company_name, accounts.contact_no FROM products INNER JOIN accounts ON products.supplier = accounts.id ORDER BY products.quantity ASC";
+            $statement = $this->database->prepare($key);
+            $statement->execute();
+            $result = $statement->get_result();
+            $rows = $result->fetch_all(MYSQLI_ASSOC);
+            return $rows;
+        }
     }
 
     class Views {

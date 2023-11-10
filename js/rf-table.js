@@ -2,14 +2,16 @@ var table = $('.rf-table');
 
 $(document).ready(function () {
     $(`.addRowBtn`).on('click', function(e) {
-        const template = $(`<tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap">
+        const template = $(`<tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap" data-price="" data-hidden="true" data-id="">
+            <input type="hidden" name="rfItemId[]" id="rfItemId">
+            <input type="hidden" name="rfQty[]" id="rfQty">    
             <td class="p-1 w-10 text-center "></td>
-            <td class="rfEditableNum p-1 text-center ">1</td>
+            <td class="rfEditableNum p-1 text-center rfQty">1</td>
             <td class="rfDropDownUnits p-1 text-center ">-</td>
-            <td class="rfDropDownItems p-1 text-center ">Select Item</td>
-            <td class="rfEditable p-1 "></td>
-            <td class="p-1 "></td>
-            <td class="p-1 text-right font-bold "></td>
+            <td class="rfDropDownItems rfItem p-1 text-center ">Select Item</td>
+            <td class="rfEditable p-1"></td>
+            <td class="p-1 rfPrice text-center"></td>
+            <td class="p-1 font-bold rfItemTotal text-center"></td>
         </tr>`);
 
         $(`.rfTableBody`).append(template);
@@ -55,21 +57,36 @@ $(document).ready(function () {
     simpleEditor.SetEditableClass("rfDropDownItems", {
         internals: {
             renderEditor: (elem, oldVal) => {
-                $(elem).html(`<select class="select select-xs w-full max-w-xs">
-                                    <option disabled selected>Select Item</option>
-                                    <option>Legeed</option>
-                                    <option>Owell</option>
-                                    <option>Tambotso</option>
-                                    <option>Erkon</option>
-                                    
-                                </select>`);
+                $.ajax({
+                    url:"backend/action.php",
+                    method: "POST",
+                    async: false,
+                    data:{listProducts : 'listProducts'},
+                    success:function(data)
+                    {
+                        $(elem).html(data);   
+                    }
+                });
 
                 $("select option").filter(function () {
                     return $(this).val() == oldVal;
                 }).prop('selected', true);
 
             },
-            extractEditorValue: (elem) => { return $(elem).find('select').val(); },
+            extractEditorValue: (elem) => { 
+                let price = parseFloat($(elem).find('select').find(":selected").data('price'));
+                let qty = parseInt($(elem).parent().find(".rfQty").text());
+                let total = qty*price;
+                console.log(total);
+                $(elem).parent().find(".rfPrice").html(price.toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'PHP',
+                }));
+                $(elem).parent().find("#rfItemId").val($(elem).find('select').find(":selected").val());
+                $(elem).parent().find("#rfQty").val(qty);
+                $(elem).parent().data('price', price); 
+                calculate();
+                return $(elem).find('select').find(":selected").data('item');},
         }
     });
 
@@ -79,8 +96,101 @@ $(document).ready(function () {
     })
 
     $("#rfTable").on("cell:edited", function (e) {
-
+        let elem = $(e.element).parent();
+        let price = parseFloat(elem.data('price'));
+        let qty = elem.find(".rfQty").text()
+        let total = qty*price;
+        elem.find("#rfQty").val(qty);
+        if (total) {
+            elem.find(".rfItemTotal").html(total.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'PHP',
+            }));
+            elem.find(".rfItemTotal").data('total', total);
+        }
+        var sum = 0.00;
+        elem.parent().find('.rfItemTotal').each(function(index){
+            if($(this).data('total')){
+                let total = parseFloat($(this).data('total'));
+                console.log(total);
+                if(total){
+                    sum += total;
+                }
+            }         
+        });
+        $('.rfsubTotal').text(sum.toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'PHP',
+        }));
+        $('.rfsubTotal').data('total', sum);
+        calculate();
     });
 });
 
-console.log('hi')
+$(".rfDiscountInput").on('input', function() {
+    let subTotal = parseFloat($('.rfsubTotal').data('total'));
+    let discount = parseFloat(Number($(this).val()).toString());
+    $(this).val(discount);
+
+    if(discount < 0 || $(this).val().length == 0){
+        $(this).val(0);
+        discount = parseFloat(Number($(this).val()).toString());
+    }else if(discount > 100){
+        $(this).val(100);
+        discount = parseFloat(Number($(this).val()).toString());
+    }
+
+    $(".rfDiscount").text((subTotal*(discount/100)).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'PHP',
+    }));
+    $(".rfDiscount").data("discount",$(this).val());
+    calculate();
+});
+
+$(".rfTaxInput").on('input', function() {
+    let subTotal = parseFloat($('.rfsubTotal').data('total'));
+    let tax = parseFloat(Number($(this).val()).toString());
+    $(this).val(tax);
+
+    if(tax < 0 || $(this).val().length == 0){
+        $(this).val(0);
+        tax = parseFloat(Number($(this).val()).toString());
+    }else if(tax > 100){
+        $(this).val(100);
+        tax = parseFloat(Number($(this).val()).toString());
+    }
+
+    $(".rfTax").text((subTotal*(tax/100)).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'PHP',
+    }));
+    $(".rfTax").data("tax",$(this).val());
+
+}); 
+
+function calculate(){
+    let subTotal = parseFloat($('.rfsubTotal').data('total'));
+    let discount = parseFloat(Number($('.rfDiscountInput').val()).toString());
+    let tax = parseFloat(Number($('.rfTaxInput').val()).toString());
+    $('.rfDiscountInput').val(discount);
+    $('.rfTaxInput').val(tax);
+
+    $(".rfDiscount").text((subTotal*(discount/100)).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'PHP',
+    }));
+
+    $(".rfDiscount").data("discount",discount);
+
+    $(".rfTax").text((subTotal*(tax/100)).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'PHP',
+    }));
+    $(".rfTax").data("tax",tax);
+
+    $(".rfTotal").text((subTotal-(subTotal*(discount/100))).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'PHP',
+    }))
+}

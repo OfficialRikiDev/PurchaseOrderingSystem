@@ -23,6 +23,18 @@
             echo $views->getView($_POST['getView']);
         }
 
+        if(isset($_POST['listProducts'])){
+            $data = $products->listProducts();
+            $content = '<select class="select select-xs w-full max-w-xs" name="rfProduct">';
+            foreach($data as $product){
+                $content .= "<option value='".$product['id']."' 
+                data-price='".$product['price']."'
+                data-item='".$product['name']."'>".$product['name'].' - ₱'.number_format($product['price'], 2)."</option>";
+            }
+            $content .= '</select">';
+            echo $content;
+        }
+
         if(isset($_POST['getProduct'])){
             $data = $products->getProducts();
             $content = "";
