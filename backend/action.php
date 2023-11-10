@@ -71,6 +71,10 @@
             echo $content;
         }
 
+        if(isset($_POST['rfFormSubmit'])){
+            echo json_encode($_POST);
+        }
+
         if(isset($_POST['view'])){
             $range = mysqli_real_escape_string($database->connection, $_POST['range']);
             $data = $notifications->getNotifications($range);
