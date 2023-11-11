@@ -167,10 +167,7 @@
             <img class="condition" src="https://user-images.githubusercontent.com/30212452/203724734-5f748507-7ae4-49f9-89f8-7fce3112cd95.png" />
             <div class="content"></div>
             <div class="meta">
-                <span class="location">
-
-
-                </span>
+                <span class="location"></span>
                 <div class="datetime">
                     <span class="iconoir-calendar"></span>
                     <span class="date"></span>
