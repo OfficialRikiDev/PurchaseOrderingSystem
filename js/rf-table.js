@@ -251,6 +251,7 @@ frm.submit(function (e) {
                         "Form submitted successfully",
                         'success'
                     )
+                    console.log(data);
                 }, 2000);
             }, 5000);
         },
