@@ -1,21 +1,75 @@
 var table = $('.rf-table');
+function calculate() {
+    var sum = 0.00;
+    $('.rfTableBody').find('.rfItemTotal').each(function (index) {
+        if ($(this).data('total')) {
+            let total = parseFloat($(this).data('total'));
+            console.log(total);
+            if (total) {
+                sum += total;
+            }
+        }
+    });
+    $('.rfsubTotal').text(sum.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'PHP',
+    }));
+    $('.rfsubTotal').data('total', sum);
+
+    let subTotal = parseFloat($('.rfsubTotal').data('total'));
+    let discount = parseFloat(Number($('.rfDiscountInput').val()).toString());
+    let tax = parseFloat(Number($('.rfTaxInput').val()).toString());
+    $('.rfDiscountInput').val(discount);
+    $('.rfTaxInput').val(tax);
+
+    
+    $(".rfDiscount").text((subTotal * (discount / 100)).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'PHP',
+    }));
+
+    $(".rfDiscount").data("discount", discount);
+
+    $(".rfTax").text((subTotal * (tax / 100)).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'PHP',
+    }));
+    $(".rfTax").data("tax", tax);
+
+    $(".rfTotal").text((subTotal - (subTotal * (discount / 100))).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'PHP',
+    }))
+}
+
 
 $(document).ready(function () {
-    
+    $(".deleteRowBtn").on('click', function(e){
+        $(this).parent().parent().remove();
+        e.preventDefault();
+        calculate();
+    });
+
     $(`.addRowBtn`).on('click', function (e) {
-        const template = $(`<tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap" data-price="" data-hidden="true" data-id="">
+        const template = $(`<tr class="rfRow editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap" data-price="0" data-hidden="true" data-id="">
             <input type="hidden" name="rfItemId[]" id="rfItemId">
             <input type="hidden" name="rfQty[]" id="rfQty">    
-            <td class="p-1 w-10 text-center "></td>
+            <td class="p-1 w-10 text-center "><button class="deleteRowBtn btn btn-error btn-xs">X</button></td>
             <td class="rfEditableNum p-1 text-center rfQty">1</td>
             <td class="rfDropDownUnits p-1 text-center ">-</td>
             <td class="rfDropDownItems rfItem p-1 text-center ">Select Item</td>
             <td class="rfEditable p-1"></td>
             <td class="p-1 rfPrice text-center"></td>
-            <td class="p-1 font-bold rfItemTotal text-center"></td>
+            <td class="p-1 font-bold rfItemTotal text-center" data-total="0"></td>
         </tr>`);
 
         $(`.rfTableBody`).append(template);
+        $(".deleteRowBtn").on('click', function(e){
+            e.preventDefault();
+            $(this).parent().parent().remove();
+            calculate();
+        });
+        calculate();
     });
 
     var logAllEvents = true;
@@ -102,6 +156,7 @@ $(document).ready(function () {
         let qty = elem.find(".rfQty").text()
         let total = qty * price;
         elem.find("#rfQty").val(qty);
+        $('.rfError').removeClass("rfError");
         if (total) {
             elem.find(".rfItemTotal").html(total.toLocaleString('en-US', {
                 style: 'currency',
@@ -109,21 +164,6 @@ $(document).ready(function () {
             }));
             elem.find(".rfItemTotal").data('total', total);
         }
-        var sum = 0.00;
-        elem.parent().find('.rfItemTotal').each(function (index) {
-            if ($(this).data('total')) {
-                let total = parseFloat($(this).data('total'));
-                console.log(total);
-                if (total) {
-                    sum += total;
-                }
-            }
-        });
-        $('.rfsubTotal').text(sum.toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'PHP',
-        }));
-        $('.rfsubTotal').data('total', sum);
         calculate();
     });
 });
@@ -131,6 +171,7 @@ $(document).ready(function () {
 $(".rfDiscountInput").on('input', function () {
     let subTotal = parseFloat($('.rfsubTotal').data('total'));
     let discount = parseFloat(Number($(this).val()).toString());
+    let tax = parseFloat($(".rfTaxInput").val().toString());
     $(this).val(discount);
 
     if (discount < 0 || $(this).val().length == 0) {
@@ -140,25 +181,35 @@ $(".rfDiscountInput").on('input', function () {
         $(this).val(100);
         discount = parseFloat(Number($(this).val()).toString());
     }
-
+    
     $(".rfDiscount").text((subTotal * (discount / 100)).toLocaleString('en-US', {
         style: 'currency',
         currency: 'PHP',
     }));
     $(".rfDiscount").data("discount", $(this).val());
+    if(tax > 100-discount){
+        $(".rfTaxInput").val(100-discount);
+        $(".rfTax").text((subTotal * (tax / 100)).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'PHP',
+        }));
+        $(".rfTax").data("tax", $(this).val());
+    }
+    
     calculate();
 });
 
 $(".rfTaxInput").on('input', function () {
     let subTotal = parseFloat($('.rfsubTotal').data('total'));
+    let discount = parseFloat($('.rfDiscount').data('discount'));
     let tax = parseFloat(Number($(this).val()).toString());
     $(this).val(tax);
 
     if (tax < 0 || $(this).val().length == 0) {
         $(this).val(0);
         tax = parseFloat(Number($(this).val()).toString());
-    } else if (tax > 100) {
-        $(this).val(100);
+    } else if (tax > 100-discount) {
+        $(this).val(100-discount);
         tax = parseFloat(Number($(this).val()).toString());
     }
 
@@ -170,31 +221,6 @@ $(".rfTaxInput").on('input', function () {
 
 });
 
-function calculate() {
-    let subTotal = parseFloat($('.rfsubTotal').data('total'));
-    let discount = parseFloat(Number($('.rfDiscountInput').val()).toString());
-    let tax = parseFloat(Number($('.rfTaxInput').val()).toString());
-    $('.rfDiscountInput').val(discount);
-    $('.rfTaxInput').val(tax);
-
-    $(".rfDiscount").text((subTotal * (discount / 100)).toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'PHP',
-    }));
-
-    $(".rfDiscount").data("discount", discount);
-
-    $(".rfTax").text((subTotal * (tax / 100)).toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'PHP',
-    }));
-    $(".rfTax").data("tax", tax);
-
-    $(".rfTotal").text((subTotal - (subTotal * (discount / 100))).toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'PHP',
-    }))
-}
 
 
 document.addEventListener('alpine:init', () => {
@@ -224,49 +250,85 @@ document.addEventListener('alpine:init', () => {
     })
 })
 
+function checkEmptyValues(){
+    let isEmpty = false;
+    $(".rfTableBody").find("input:hidden").each(function(){
+        if($(this).val() == ''){isEmpty = true;  $(this).parent().addClass("rfError");}
+    });
+    if(isEmpty) return false; else return true;
+}
+
+function checkAmountOfRows(){
+    let rows = $(".rfTableBody").find(".rfRow").length;
+    if(rows > 0 && checkEmptyValues()){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 var frm = $('.rfForm');
 frm.submit(function (e) {
     e.preventDefault(e);
+    if(!checkEmptyValues()) {
+        Alpine.store('toasts').createToast(
+            "Required inputs are empty, Please remove unused row or fill them up.",
+            'error',
+            4000
+        );
+        return;
+    }
+
+    if(!checkAmountOfRows()){
+        Alpine.store('toasts').createToast(
+            "Error! Table data entry is empty.",
+            'error',
+            3000
+        );
+        return;
+    } 
+
     $(".loadOverlay").fadeIn(300);
     $('.checkContainer').hide();
     $('.errorContainer').hide();
     $('.loader').show();
 
     var formData = new FormData($(this)[0]);
-
-    $.ajax({
-        type: frm.attr('method'),
-        url: frm.attr('action'),
-        data: formData,
-        cache: false,
-        processData: false, 
-        contentType: false,
-        success: function (data) {
-            setTimeout(function() {
-                $('.loader').hide();
-                $('.checkContainer').fadeIn('slow', function () {});
+    setTimeout(function() {
+        $('.loader').hide();
+        $('.checkContainer').fadeIn('slow', function () {});
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: formData,
+            cache: false,
+            processData: false, 
+            contentType: false,
+            success: function (data) {
+                console.log(data);
                 setTimeout(function() {
                     $(".loadOverlay").fadeOut('slow', function () {});
                     Alpine.store('toasts').createToast(
                         "Form submitted successfully",
                         'success'
-                    )
-                    console.log(data);
+                    );
                 }, 2000);
-            }, 5000);
-        },
-        error: function (request, status, error) {
-            setTimeout(function() {
-                $('.loader').hide();
-                $('.errorContainer').fadeIn('slow', function () {});
+            },
+            error: function (request, status, error) {
                 setTimeout(function() {
+                    $('.loader').hide();
+                    $('.errorContainer').fadeIn('slow', function () {});
                     $(".loadOverlay").fadeOut('slow', function () {});
-                    Alpine.store('toasts').createToast(
-                        "Error occured. Please try again",
-                        'error'
-                    )
+                        Alpine.store('toasts').createToast(
+                            "Error occured. Please try again",
+                            'error',
+                            5000
+                        )
+                    
                 }, 2000);
-            }, 5000);
-        }
-    });
+            }
+        });
+    }, 5000);
 });
+
+

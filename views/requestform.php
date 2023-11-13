@@ -115,10 +115,10 @@
         <h2 class="text-center text-white text-xl font-semibold loadTextTitle">Submitting form...</h2>
         <p class="w-1/3 text-center text-white loadTextDescription">This may take a few seconds, please don't close this page.</p>
     </div>
-    <button class="px-2 rounded-md bg-sky-600 text-white float-right mb-3" type="submit" form="rfForm">Submit</button>
+    <button class="sticky px-2 rounded-md bg-sky-600 text-white float-right mb-3" type="submit" form="rfForm">Submit</button>
     <form action="/backend/action.php" method="post" class="rfForm" id="rfForm">
         <input type="hidden" name="rfFormSubmit">
-        <table id="rfTable" class="table flex table-auto px=2 w-full border-separate leading-normal">
+        <table id="rfTable" class="table flex table-auto px-2 pt-5 w-full border-separate leading-normal">
             <thead class="uppercase  text-xs font-semibold bg-gray-200">
                 <tr class="hidden md:table-row">
                     <th class="w-2"></th>
@@ -144,10 +144,10 @@
             </thead>
             <tbody class="rfTableBody flex-1 sm:flex-none">
 
-                <tr class="editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap" data-price="" data-hidden="true">
+                <tr class="rfRow editable flex h-9 hover:bg-gray-100 text-sm table-row flex-col w-full flex-wrap" data-price="" data-hidden="true">
                     <input type="hidden" name="rfItemId[]" id="rfItemId" required>
                     <input type="hidden" name="rfQty[]" id="rfQty" required>
-                    <td class="p-1 w-10 text-center"></td>
+                    <td class="p-1 w-10 text-center"><button class="deleteRowBtn btn btn-error btn-xs">X</button></td>
                     <td class="rfEditableNum p-1 text-center rfQty">1</td>
                     <td class="rfDropDownUnits p-1 text-center">-</td>
                     <td class="rfDropDownItems rfItem p-1 text-center ">Select Item</td>
