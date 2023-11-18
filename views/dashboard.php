@@ -12,26 +12,44 @@
                 <span class="iconoir-report-columns"></span>
                 <span class="desc">Dashboard</span>
             </a>
-            <a href="#" class="menu-item">
-                <span class="iconoir-google-docs"></span>
-                <span class="desc truncate">Request Form</span>
-            </a>
-            <a href="#" class="menu-item">
-                <span class="iconoir-table"></span>
-                <span class="desc truncate">Inventory</span>
-            </a>
-            <a href="#" class="menu-item">
-                <span class="iconoir-bag"></span>
-                <span class="desc truncate">Cart</span>
-            </a>
-            <a href="#" class="menu-item">
-                <span class="iconoir-user"></span>
-                <span class="desc truncate">Clients</span>
-            </a>
-            <a href="#" class="menu-item">
-                <span class="iconoir-leaderboard"></span>
-                <span class="desc truncate">Analytics</span>
-            </a>
+            <?php  
+                if($_SESSION['role'] == "3") {
+                    echo '<a href="#" class="menu-item">
+                        <span class="iconoir-page"></span>
+                        <span class="desc truncate">Request Form</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                    <span class="iconoir-box-iso"></span>
+                    <span class="desc truncate">Inventory</span>
+                </a>';
+                }else if($_SESSION['role'] == "2"){
+                    echo '<a href="#" class="menu-item">
+                        <span class="iconoir-google-docs"></span>
+                        <span class="desc truncate">Recieved POs    </span>
+                    </a>
+                    <a href="#" class="menu-item">
+                    <span class="iconoir-box-iso"></span>
+                    <span class="desc truncate">Inventory</span>
+                </a>';
+                }else if($_SESSION['role'] == "1") {
+                    echo '<a href="#" class="menu-item">
+                        <span class="iconoir-google-docs"></span>
+                        <span class="desc truncate">Pending POs</span>
+                    </a>
+                    
+                    <a href="#" class="menu-item">
+                        <span class="iconoir-box-iso"></span>
+                        <span class="desc truncate">Inventory</span>
+                    </a>';
+                }else{
+                    echo '
+                    <a href="#" class="menu-item">
+                        <span class="iconoir-group"></span>
+                        <span class="desc truncate">Accounts</span>
+                    </a>';
+                }
+            ?>
+            
             <a href="#" class="menu-item">
                 <span class="iconoir-settings"></span>
                 <span class="desc truncate">Settings</span>

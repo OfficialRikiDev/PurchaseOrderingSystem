@@ -13,7 +13,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/autoload.php');
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
     
     <script src="/js/SimpleCellTableEditor.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.9.0/dist/full.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.0.9/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script> 
     <title><?php echo $websettings->getSettings()['website_name']; ?></title>
 </head>

@@ -38,6 +38,7 @@ $("#loginBtn").click(function () {
         type: "POST",
         data: values,
         success: function (data) {
+            console.log(data);  
             if (data.code == 200) {
                 Alpine.store('toasts').createToast(
                     data.message,

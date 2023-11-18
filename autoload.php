@@ -9,5 +9,6 @@
     $websettings = new Website($database->connection);
     $notifications = new Notification($database->connection);
     $products = new Products($database->connection);    
+    $orders = new Order($database->connection);    
     $views = new Views();
 ?>

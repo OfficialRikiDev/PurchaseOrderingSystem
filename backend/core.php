@@ -7,7 +7,7 @@
         }
     
         public function Login($username, $password){
-            $key = "SELECT * FROM accounts WHERE username = '$username' AND password = '$password'";
+            $key = "SELECT * FROM accounts WHERE username = BINARY '$username' AND password = BINARY '$password'";
 
             $statement = $this->database->prepare($key);
             $statement->execute();
@@ -17,6 +17,7 @@
             if($count >= 1){
                 $_SESSION['username'] = $username;
                 $_SESSION['id'] = $rows['id'];
+                $_SESSION['role'] = $rows['role'];
                 return true;
             }else{
                 return false;
@@ -114,6 +115,29 @@
 
         public function listProducts(){
             $key = "SELECT products.*, accounts.id as aid, accounts.company_name, accounts.contact_no FROM products INNER JOIN accounts ON products.supplier = accounts.id ORDER BY products.quantity ASC";
+            $statement = $this->database->prepare($key);
+            $statement->execute();
+            $result = $statement->get_result();
+            $rows = $result->fetch_all(MYSQLI_ASSOC);
+            return $rows;
+        }
+    }
+
+    class Order {
+        private $database;
+        function __construct($db) {
+            $this->database = $db;
+        }
+
+        public function insertRequest($data){
+            $key = "INSERT INTO requests(itemData, created_by) VALUES('".$data."', ?)";
+            $statement = $this->database->prepare($key);
+            $statement->bind_param("i", $_SESSION["id"]);
+            return $statement->execute();
+        }
+
+        public function getPOS(){
+            $key = "SELECT requests.*, accounts.username, accounts.company_name, accounts.contact_no FROM requests INNER JOIN accounts ON accounts.id=requests.created_by ORDER BY date_created DESC";
             $statement = $this->database->prepare($key);
             $statement->execute();
             $result = $statement->get_result();
