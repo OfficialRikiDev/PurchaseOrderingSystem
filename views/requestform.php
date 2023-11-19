@@ -115,10 +115,10 @@
         <h2 class="text-center text-white text-xl font-semibold loadTextTitle">Submitting form...</h2>
         <p class="w-1/3 text-center text-white loadTextDescription">This may take a few seconds, please don't close this page.</p>
     </div>
-    <button class="sticky px-2 rounded-md bg-sky-600 text-white float-right mb-3" type="submit" form="rfForm">Submit</button>
+
     <form action="/backend/action.php" method="post" class="rfForm" id="rfForm">
         <input type="hidden" name="rfFormSubmit">
-        <table id="rfTable" class="table table-compact table-xs   px-2 pt-5 w-full border-separate leading-normal">
+        <table id="rfTable" class="table table-compact table-xs table-pin-rows  px-2 w-full border-separate leading-normal">
             <thead class="uppercase text-xs text-white font-semibold bg-base-100">
                 <tr clas s="hidden md:table-row">
                     <th class="w-2"></th>
@@ -160,22 +160,23 @@
             <tfoot class="flex-1 sm:flex-none bg-base-100 text-white">
                 <tr class="flex h-8 text-sm table-row flex-col w-full flex-wrap">
 
-                    <td colspan="6" class="p-1 text-right font-semibold ">
-                        <div class="w-full"><button type="button" class="addRowBtn mr-5 px-2 rounded-md bg-sky-600 text-white">Add row</button>Total</div>
+                    <td colspan="6"  class="p-1 text-right font-semibold ">
+                        <div class="w-full">    <button class="px-2 rounded-md bg-sky-600 text-white me-2" type="submit" form="rfForm">Submit</button><button type="button" class="addRowBtn mr-5 px-2 rounded-md bg-sky-600 text-white">Add row</button>Total : </div>
                     </td>
-                    <td class="p-1 font-bold ">
+                    <td  class="p-1 font-bold ">
                         <div class="w-full rfsubTotal text-sm text-center" data-total="0">₱0</div>
                     </td>
                 </tr>
             </tfoot>
-        </table>
+        <table>
         <br>
     </form>
+    
 </div>
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <script src="/js/rf-table.js"></script>
 
-<div x-data="{ position : 'bottom-right' }" class="absolute top-0 right-0 px-2 mt-3 overflow-x-hidden z-50 max-w-xs" :class="{
+<div x-data="{ position : 'top-left' }" class="absolute top-0 right-0 px-2 mt-3 overflow-x-hidden z-50 max-w-xs" :class="{
                 'top-0 right-0': position =='top-right',
                 'top-0 left-0': position == 'top-left',
                 'bottom-0 left-0': position =='bottom-left',

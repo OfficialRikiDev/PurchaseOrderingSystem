@@ -1,7 +1,7 @@
 <?php
     include_once($_SERVER['DOCUMENT_ROOT'] . '/autoload.php');
 
-
+    /*ACCOUNT*/
         
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         if(isset($_POST['login'])){
@@ -26,12 +26,35 @@
             return;
         }
 
-        if(isset($_POST['getView'])){
-            echo $views->getView($_POST['getView']);
+        
+
+
+
+
+
+
+
+
+
+
+
+        /* Request Form */
+
+        if(isset($_POST['declineRF'])){
+            $rfid = mysqli_real_escape_string($database->connection, $_POST['id']);
+            try {
+                if($orders->declineRequest($rfid)){
+                    echo json_encode(array("status" => 200));
+                }else{
+                    echo json_encode(array("status" => 400));
+                }
+            }catch(Exception $e){
+                echo json_encode(array("status" => 400));
+            }
         }
 
-        if(isset($_POST['getPOS'])){
-            $data = $orders->getPOS();
+        if(isset($_POST['getRFS'])){
+            $data = $orders->getRFS();
             $status = array("Pending", "Approved", "Declined");
             $badge = array("info", "success", "error");
             $content = "";
@@ -55,24 +78,36 @@
                     '.date_format(date_create($pos['date_created']),"M d, Y h:i A").'
                 </td>
                 <td><span class="badge badge-'.$badge[$pos["status"]].' badge-sm">'.$status[$pos["status"]].'</span></td>
-                <th>';
+                <td data-id="'.$pos['id'].'">';
 
                 if($pos['status'] != 0) {
                     $content .= '<button class="btn btn-ghost btn-xs me-3">View</button>
                     <button class="btn btn-warning btn-xs">Edit</button>';
                 }else{
                     $content .= '<button class="btn btn-ghost btn-xs me-3">View</button>
-                    <button class="btn btn-success btn-xs">Approve</button>
-                    <button class="btn btn-error btn-xs">Decline</button>'; 
+                    <button class="btn btn-success btn-xs rfApprove">Approve</button>
+                    <button class="btn btn-error btn-xs rfDecline">Decline</button>'; 
                 }
 
                     
-                $content .= '</th>
+                $content .= '</td>
             </tr>';
             }
             echo $content;
         }
 
+
+
+
+
+
+
+
+
+
+
+
+        /* PRODUCTS */
         if(isset($_POST['listProducts'])){
             $data = $products->listProducts();
             $content = '<select class="select select-xs w-full max-w-xs" name="rfProduct">';
@@ -120,6 +155,19 @@
             }
             echo $content;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+        /* FORM SUBMISSION */
 
         if(isset($_POST['rfFormSubmit'])){
             unset($_POST['rfFormSubmit']);
@@ -173,5 +221,11 @@
             echo json_encode(array('count' => $count, 'notifications' => array_reverse($notifs)));
         }
     }
+
     
+
+    /* GET VIEW */
+    if(isset($_POST['getView'])){
+        echo $views->getView($_POST['getView']);
+    }
 ?>

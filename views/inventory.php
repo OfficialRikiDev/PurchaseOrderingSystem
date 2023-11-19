@@ -2,7 +2,7 @@
 <div class="overflow-x-auto w-100">
     <label for="addItemModal" class="btn btn-xs btn-primary mb-2 float-right">Add Item</label>
     <table class="table" style="width: 100%">
-        <thead>
+        <thead class="bg-base-100 text-white">
             <tr>
                 <th>ID</th>
                 <th>Product Name</th>
@@ -11,10 +11,12 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody class="invBody">
+        <tbody class="invBody bg-neutral">
             
         </tbody>
-
+        <tfoot class="bg-base-100">
+            <td colspan="5"></td>
+        </tfoot>
     </table>
 </div>
 

@@ -136,13 +136,24 @@
             return $statement->execute();
         }
 
-        public function getPOS(){
-            $key = "SELECT requests.*, accounts.username, accounts.company_name, accounts.contact_no FROM requests INNER JOIN accounts ON accounts.id=requests.created_by ORDER BY date_created DESC";
+        public function getRFS(){
+            $key = "SELECT requests.*, accounts.username, accounts.company_name, accounts.contact_no FROM requests INNER JOIN accounts ON accounts.id=requests.created_by ORDER BY status ASC   ";
             $statement = $this->database->prepare($key);
             $statement->execute();
             $result = $statement->get_result();
             $rows = $result->fetch_all(MYSQLI_ASSOC);
             return $rows;
+        }
+
+        public function getItemData($id){
+            
+        }
+
+        public function declineRequest($id){
+            $key ="UPDATE requests SET status=2 WHERE id=?";
+            $statement = $this->database->prepare($key);
+            $statement->bind_param("i", $id);
+            return $statement->execute();;
         }
     }
 
