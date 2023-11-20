@@ -68,18 +68,31 @@ menuItems.forEach((item) => {
     });
 });
 
+
+
+
+
 // Set Date, Time
-const today = new Date();
-const formatZero = (value) => value < 10 ? '0' + value : value;
-var hours = today.getHours();
-var minutes = today.getMinutes();
-var ampm = hours >= 12 ? 'pm' : 'am';
-hours = hours % 12;
-hours = hours ? hours : 12; // the hour '0' should be '12'
-minutes = minutes < 10 ? '' + minutes : minutes;
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-date.innerText = `${today.getDate()} ${months[today.getMonth()]}, ${today.getFullYear()}`;
-time.innerText = `${hours}:${formatZero(minutes)} ${ampm.toUpperCase()}`;
+
+function startTime(){
+    const today = new Date();
+    const formatZero = (value) => value < 10 ? '0' + value : value;
+    var hours = today.getHours();
+    var minutes = today.getMinutes();
+    var seconds = today.getSeconds();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '' + minutes : minutes;
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    date.innerText = `${today.getDate()} ${months[today.getMonth()]}, ${today.getFullYear()}`;
+    time.innerText = `${hours}:${formatZero(minutes)}:${seconds} ${ampm.toUpperCase()}`;
+    setTimeout(startTime, 1000);
+}
+
+$(document).ready(function(){
+    startTime();
+});
 
 // Populate News
 const dummyData = () => {
@@ -139,3 +152,4 @@ function weatherData(location) {
 dummyData();
 
 weather();
+

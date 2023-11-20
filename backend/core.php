@@ -136,6 +136,18 @@
             return $statement->execute();
         }
 
+        public function insertPO($data, $porfID){
+            $key = "INSERT INTO purchase_orders(itemData, created_by) VALUES('".$data."', ?)";
+            $statement = $this->database->prepare($key);
+            $statement->bind_param("i", $_SESSION["id"]);
+            if($statement->execute()){
+                $key2 ="UPDATE requests SET status=1 WHERE id=?";
+                $statement2 = $this->database->prepare($key2);
+                $statement2->bind_param("i", $porfID);
+                return $statement2->execute();
+            }
+        }
+
         public function getRFS(){
             $key = "SELECT requests.*, accounts.username, accounts.company_name, accounts.contact_no FROM requests INNER JOIN accounts ON accounts.id=requests.created_by ORDER BY status ASC   ";
             $statement = $this->database->prepare($key);
@@ -145,8 +157,24 @@
             return $rows;
         }
 
+        public function getFormData($id){
+            $key = "SELECT requests.*, accounts.username, accounts.company_name, accounts.contact_no FROM requests INNER JOIN accounts ON accounts.id=requests.created_by WHERE requests.id = ? ORDER BY status ASC   ";
+            $statement = $this->database->prepare($key);
+            $statement->bind_param("i", $id);
+            $statement->execute();
+            $result = $statement->get_result();
+            $rows = $result->fetch_assoc();
+            return $rows;
+        }
+
         public function getItemData($id){
-            
+            $key = "SELECT * FROM products WHERE id = ?";
+            $statement = $this->database->prepare($key);
+            $statement->bind_param("i", $id);
+            $statement->execute();
+            $result = $statement->get_result();
+            $rows = $result->fetch_assoc();
+            return $rows;
         }
 
         public function declineRequest($id){

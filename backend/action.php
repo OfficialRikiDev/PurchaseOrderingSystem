@@ -45,11 +45,14 @@
             try {
                 if($orders->declineRequest($rfid)){
                     echo json_encode(array("status" => 200));
+                    return;
                 }else{
                     echo json_encode(array("status" => 400));
+                    return;
                 }
             }catch(Exception $e){
                 echo json_encode(array("status" => 400));
+                return;
             }
         }
 
@@ -94,11 +97,34 @@
             </tr>';
             }
             echo $content;
+            return;
         }
 
 
 
-
+        if(isset($_POST['getFormData'])){
+            $id = mysqli_real_escape_string($database->connection, $_POST['id']);
+            $data = $orders->getFormData($id);
+            $objects = json_decode($data['itemData']);
+            $content = "";
+            foreach($objects as $item){     
+                $itemData = $orders->getItemData($item->id);
+                $content .= '<tr class="rfRow editable flex h-9 hover:bg-gray-700 text-sm table-row flex-col w-full flex-wrap" data-price="0" data-hidden="true" data-id="">
+                <input type="hidden" name="rfItemId[]" value="'.$item->id.'" id="rfItemId">
+                <input type="hidden" name="rfQty[]" value="'.$item->quantity.'" id="rfQty">    
+                <input type="hidden" name="rfDescription[]" value="'.$item->desc.'" id="rfDescription" class="rfDescription" required>
+                <td class="rfEditableNum p-1 text-center rfQty">'.$item->quantity.'</td>
+                <td class="rfDropDownUnits p-1 text-center ">-</td>
+                <td class="rfDropDownItems rfItem p-1 text-center ">'.$itemData['name'].'</td>
+                <td class="rfVendor p-1 text-center ">Vendor</td>
+                <td class="rfEditable p-1 rfDesc">'.$item->desc.'</td>
+                <td class="p-1 rfPrice text-center">₱'.number_format($itemData['price'], 2).'</td>
+                <td class="p-1 font-bold rfItemTotal text-center" data-total="'.number_format($item->quantity * $itemData['price'], 2).'">₱'.number_format($item->quantity * $itemData['price'], 2).'</td>
+            </tr>';
+            }
+            echo $content; 
+            return; 
+        }
 
 
 
@@ -118,6 +144,7 @@
             }
             $content .= '</select">';
             echo $content;
+            return;
         }
 
         if(isset($_POST['getProduct'])){
@@ -154,6 +181,7 @@
             </tr>';
             }
             echo $content;
+            return;
         }
 
 
@@ -188,7 +216,36 @@
             }else{
                 echo json_encode(array("status" => 400));
             }
+            return;
         }
+
+        if(isset($_POST['approvePurchaseOrderSubmit'])){
+            unset($_POST['approvePurchaseOrderSubmit']);
+            //$tax = mysqli_real_escape_string($database->connection, $_POST['rfTax']);
+            //$discount = mysqli_real_escape_string($database->connection, $_POST['rfDiscount']);
+            $porfID = mysqli_real_escape_string($database->connection, $_POST['porfID']);
+            $items = array();
+            foreach($_POST['rfItemId'] as $key=>$value){
+                $data = array();
+                $data['id'] = mysqli_real_escape_string($database->connection, $value);
+                $data['quantity'] = mysqli_real_escape_string($database->connection, $_POST['rfQty'][$key]); 
+                $data['desc'] = mysqli_real_escape_string($database->connection, $_POST['rfDescription'][$key]);
+                array_push($items, $data);  
+            }
+            $items = json_encode($items);
+            $items = mysqli_real_escape_string($database->connection, $items);
+            if($orders->insertPO($items, $porfID)){
+                echo json_encode(array("status" => 200));
+            }else{
+                echo json_encode(array("status" => 400));
+            }
+            return;
+        }
+
+
+
+
+        /*Notification */
 
         if(isset($_POST['view'])){
             $range = mysqli_real_escape_string($database->connection, $_POST['range']);
@@ -219,6 +276,7 @@
             }
             header("Content-Type: application/json");
             echo json_encode(array('count' => $count, 'notifications' => array_reverse($notifs)));
+            return;
         }
     }
 
@@ -227,5 +285,8 @@
     /* GET VIEW */
     if(isset($_POST['getView'])){
         echo $views->getView($_POST['getView']);
+        return;
     }
+
+    header("Location: /");
 ?>
