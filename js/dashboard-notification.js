@@ -36,5 +36,5 @@ $(document).ready(function() {
         if($('#dropdownNotification').is(":hidden")){
             load_notifications();
         }
-    }, 5000);
+    }, 1000);
 });

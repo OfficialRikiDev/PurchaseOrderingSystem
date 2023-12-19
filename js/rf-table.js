@@ -1,4 +1,6 @@
 var table = $('.rf-table');
+
+
 function calculate() {
     var sum = 0.00;
     $('.rfTableBody').find('.rfItemTotal').each(function (index) {
@@ -125,12 +127,28 @@ $(document).ready(function () {
                     data: { listProducts: 'listProducts' },
                     success: function (data) {
                         $(elem).html(data);
+                        $("#rfProds").chosen();
+                        $("#rfProds").next('.chosen-container').on('mouseenter', '.active-result', function(e) {
+                            var target = $(".chosen-container").offset();
+                            $("#itemDetails").css({top: target.top - 110, left: target.left + 5, position:'absolute', visibility: 'visible'});
+                            $("#itemDetails .itemName").text($("#rfProds option").eq($(this).data("option-array-index")).data('item'));
+                            $("#itemDetails .itemDescription").text($("#rfProds option").eq($(this).data("option-array-index")).data('desc'));
+                            $("#itemDetails .itemPrice").text($("#rfProds option").eq($(this).data("option-array-index")).data('descprice'));
+                        });
+
+                        $("#rfProds").next('.chosen-container').on('mouseleave', '.active-result', function(e) {
+                            var target = $(".chosen-container").offset();
+                            $("#itemDetails").css({top: target.top - 100, left: target.left, position:'absolute', visibility: 'hidden'});
+                        });
                     }
                 });
 
                 $("select option").filter(function () {
                     return $(this).val() == oldVal;
                 }).prop('selected', true);
+                
+                
+        
 
             },
             extractEditorValue: (elem) => {

@@ -3,8 +3,7 @@
 <main class="container">
     <div class="menu">
         <div class="avatar">
-            <img class="thumb" src="https://source.boringavatars.com/pixel/60 /<?php echo "".$_SESSION['username']; ?>?colors=26a653,2a1d8f,79646a"  />
-
+            <img class="thumb" src="https://ui-avatars.com/api/?name=<?php echo "".$_SESSION['username']; ?>"  />
             <span class="name">@<?php echo $_SESSION['username']; ?></span>
         </div>
         <nav class="primary">
@@ -25,18 +24,21 @@
                 }else if($_SESSION['role'] == "2"){
                     echo '<a href="#" class="menu-item">
                         <span class="iconoir-google-docs"></span>
-                        <span class="desc truncate">Recieved POs    </span>
+                        <span class="desc truncate">Recieved POs</span>
                     </a>
                     <a href="#" class="menu-item">
                     <span class="iconoir-box-iso"></span>
-                    <span class="desc truncate">Inventory</span>
+                    <span class="desc truncate">Product List</span>
                 </a>';
                 }else if($_SESSION['role'] == "1") {
                     echo '<a href="#" class="menu-item">
                         <span class="iconoir-google-docs"></span>
                         <span class="desc truncate">Pending RFs</span>
                     </a>
-                    
+                    <a href="#" class="menu-item">
+                        <span class="iconoir-google-docs"></span>
+                        <span class="desc truncate">Purchase Orders</span>
+                    </a>
                     <a href="#" class="menu-item">
                         <span class="iconoir-box-iso"></span>
                         <span class="desc truncate">Inventory</span>
@@ -208,10 +210,12 @@
     </div>
 </main>
 <div class="video">
-    <video src="https://user-images.githubusercontent.com/30212452/203724691-9e93bf50-df02-4034-9743-dfe32d18bf58.mp4" muted playsinline autoplay loop></video>
+    <video muted playsinline autoplay loop>
+        <source src="/assets/dbbg.mp4" type="video/mp4">
+    </video>
 </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+<script src="/js/flowbite.min.js"></script>
 <script src="/js/dashboard.js"></script>
 <script src="/js/dashboard-notification.js"></script>

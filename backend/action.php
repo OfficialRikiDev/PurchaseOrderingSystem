@@ -84,10 +84,10 @@
                 <td data-id="'.$pos['id'].'">';
 
                 if($pos['status'] != 0) {
-                    $content .= '<button class="btn btn-ghost btn-xs me-3">View</button>
-                    <button class="btn btn-warning btn-xs">Edit</button>';
+                    $content .= '<button class="btn btn-ghost btn-xs">View</button>
+                    ';
                 }else{
-                    $content .= '<button class="btn btn-ghost btn-xs me-3">View</button>
+                    $content .= '
                     <button class="btn btn-success btn-xs rfApprove">Approve</button>
                     <button class="btn btn-error btn-xs rfDecline">Decline</button>'; 
                 }
@@ -100,6 +100,52 @@
             return;
         }
 
+
+        if(isset($_POST['getPOS'])){
+            $data = $orders->getPOS();
+            $status = array("Pending", "Approved", "Cancelled","Delivering");
+            $badge = array("info", "success", "error", "warning");
+            $content = "";
+            foreach($data as $pos){
+                $content .= '<tr>
+                <th>'.$pos['id'].'</th>
+                <td>
+                    <div class="flex items-center space-x-3">
+                        <div class="avatar">
+                            <div class="mask mask-squircle w-12 h-12">
+                                <img src="https://source.boringavatars.com/pixel/120/'.$pos["username"].'" alt="Avatar Tailwind CSS Component" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-bold ms-1">'.$pos["username"].'</div>
+                            <span class="badge badge-ghost badge-sm">'.($pos["contact_no"] != "" ? $pos["contact_no"] : "Contact unavailable").'</span>
+                        </div>
+                    </div>
+                </td>
+                <td class="rfVendor p-1 text-center ">Vendor</td>
+                <td>
+                    '.date_format(date_create($pos['date_created']),"M d, Y h:i A").'
+                </td>
+                <td><span class="badge badge-'.$badge[$pos["status"]].' badge-sm">'.$status[$pos["status"]].'</span></td>
+                <td data-id="'.$pos['id'].'">';
+
+                if($pos['status'] != 0) {
+                    $content .= '<button class="btn btn-ghost btn-xs">View Delivery Status</button>';
+                }else if($_SESSION['role'] == "2"){
+                    $content .= '
+                    <button class="btn btn-success btn-xs rfApprove">Approve</button>
+                    <button class="btn btn-error btn-xs rfDecline">Decline</button>'; 
+                }else{
+                    $content .= '<button class="btn btn-ghost rfviewPDF btn-xs">View</button>';
+                }
+
+                    
+                $content .= '</td>
+            </tr>';
+            }
+            echo $content;
+            return;
+        }
 
 
         if(isset($_POST['getFormData'])){
@@ -119,7 +165,7 @@
                 <td class="rfVendor p-1 text-center ">Vendor</td>
                 <td class="rfEditable p-1 rfDesc">'.$item->desc.'</td>
                 <td class="p-1 rfPrice text-center">₱'.number_format($itemData['price'], 2).'</td>
-                <td class="p-1 font-bold rfItemTotal text-center" data-total="'.number_format($item->quantity * $itemData['price'], 2).'">₱'.number_format($item->quantity * $itemData['price'], 2).'</td>
+                <td class="p-1 font-bold rfItemTotal text-center" data-total="'.$item->quantity * $itemData['price'].'">₱'.number_format($item->quantity * $itemData['price'], 2).'</td>
             </tr>';
             }
             echo $content; 
@@ -133,14 +179,30 @@
 
 
 
+
+
         /* PRODUCTS */
+
+        if(isset($_POST['getProductData'])){
+            $id = mysqli_real_escape_string($database->connection, $_POST['item_id']);
+            $data = $products->getProductInfo($id);
+            if($data){
+                echo json_encode($data);
+            }
+            return;
+        }
+
+
         if(isset($_POST['listProducts'])){
             $data = $products->listProducts();
-            $content = '<select class="select select-xs w-full max-w-xs" name="rfProduct">';
+            $content = '<select class="select select-xs w-full max-w-xs chosen-select"  id="rfProds" name="rfProduct">';
             foreach($data as $product){
                 $content .= "<option value='".$product['id']."' 
                 data-price='".$product['price']."'
-                data-item='".$product['name']."'>".$product['name'].' - ₱'.number_format($product['price'], 2)."</option>";
+                data-vendor='".$product['company_name']."'
+                data-desc='".$product['description']."'
+                data-descprice='₱".number_format($product['price'], 2)."'
+                data-item='".$product['name']."'>[".$product['company_name']."] ".$product['name']."</option>";
             }
             $content .= '</select">';
             echo $content;
@@ -176,7 +238,91 @@
                 </td>
                 <td>'.$p['quantity'].'</td>
                 <th>
-                    <button class="btn btn-ghost btn-xs">Edit</button>
+                    <button class="btn btn-ghost btn-xs" onClick="editItem('.$p['id'].');">Edit</button>
+                </th>
+            </tr>';
+            }
+            echo $content;
+            return;
+        }
+
+        /* INVENTORY */
+
+        if(isset($_POST['getInventoryItemData'])){
+            $id = mysqli_real_escape_string($database->connection, $_POST['item_id']);
+            $data = $inventory->getItemInfo($id);
+            if($data){
+                echo json_encode($data);
+            }
+            return;
+        }
+
+        if(isset($_POST['getInventoryItems'])){
+            $data = $inventory->getUserInventory();
+            $content = "";
+            foreach($data as $p){
+                $content .= '
+                <tr>
+                <th>
+                    '.$p['id'].'
+                </th>
+                <td>
+                    <div class="flex items-center space-x-3">
+                        <div class="avatar">
+                            <div class="mask mask-circle w-12 h-12">
+                                <img src="/assets/ligid.webp" alt="Avatar Tailwind CSS Component" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-bold">'.$p['name'].'</div>
+                            <div class="text-sm opacity-50">'.$p['brand'].'</div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    '.$p['company_name'].'
+                    <br />
+                    <span class="badge badge-ghost badge-sm">'.$p['contact_no'].'</span>
+                </td>
+                <td>'.$p['quantity'].'</td>
+                <th>
+                    <button onclick="openEditBox('.$p['id'].')" class="itemEditBtn btn btn-ghost btn-xs">Edit</button>
+                </th>
+            </tr>';
+            }
+            echo $content;
+            return;
+        }
+
+        if(isset($_POST['getAccountList'])){
+            $data = $accounts->getAccounts();
+            $roles = array("Super Admin", "Admin", "Supplier", "Property Custodian");
+            $content = "";
+            foreach($data as $p){
+                $content .= '
+                <tr>
+                <th>
+                    
+                </th>
+                <td>
+                    <div class="flex items-center space-x-3">
+                        <div class="avatar">
+                            <div class="mask mask-circle w-12 h-12">
+                                <img src="https://source.boringavatars.com/pixel/60/'.$p['username'].'?colors=26a653,2a1d8f,79646a"" alt="Avatar Tailwind CSS Component" />
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-bold">'.$p['username'].'</div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    '.$p['email'].'
+                    <br />
+                    <span class="badge badge-ghost badge-sm">'.$roles[$p['role']].'</span>
+                </td>
+                <th>
+                    <button onclick="openEditBox('.$p['id'].')" class="itemEditBtn btn btn-ghost btn-xs"></button>
                 </th>
             </tr>';
             }
@@ -187,15 +333,22 @@
 
 
 
-
-
-
-
-
-
-
-
         /* FORM SUBMISSION */
+        if(isset($_POST['editProduct'])){
+            unset($_POST['editProduct']);
+            $id = mysqli_real_escape_string($database->connection, $_POST['editItemId']);
+            $nm = mysqli_real_escape_string($database->connection, $_POST['invItemName']);
+            $qty = mysqli_real_escape_string($database->connection, $_POST['invItemQty']);
+            $brand = mysqli_real_escape_string($database->connection, $_POST['invItemBrand']);
+            $price = mysqli_real_escape_string($database->connection, $_POST['invItemPrice']);
+            $desc = mysqli_real_escape_string($database->connection, $_POST['invItemDescription']);
+            if($products->updateProduct($id, $qty, $nm, $desc, $brand, $price)){
+                echo json_encode(array("status" => 200));
+            }else{
+                echo json_encode(array("status" => 400));
+            }
+            return;
+        }
 
         if(isset($_POST['rfFormSubmit'])){
             unset($_POST['rfFormSubmit']);
@@ -223,17 +376,16 @@
             unset($_POST['approvePurchaseOrderSubmit']);
             //$tax = mysqli_real_escape_string($database->connection, $_POST['rfTax']);
             //$discount = mysqli_real_escape_string($database->connection, $_POST['rfDiscount']);
-            $porfID = mysqli_real_escape_string($database->connection, $_POST['porfID']);
+            $porfID = $_POST['porfID'];
             $items = array();
             foreach($_POST['rfItemId'] as $key=>$value){
                 $data = array();
-                $data['id'] = mysqli_real_escape_string($database->connection, $value);
-                $data['quantity'] = mysqli_real_escape_string($database->connection, $_POST['rfQty'][$key]); 
-                $data['desc'] = mysqli_real_escape_string($database->connection, $_POST['rfDescription'][$key]);
+                $data['id'] = $value;
+                $data['quantity'] = $_POST['rfQty'][$key]; 
+                $data['desc'] = $_POST['rfDescription'][$key];
                 array_push($items, $data);  
             }
             $items = json_encode($items);
-            $items = mysqli_real_escape_string($database->connection, $items);
             if($orders->insertPO($items, $porfID)){
                 echo json_encode(array("status" => 200));
             }else{
@@ -243,7 +395,70 @@
         }
 
 
+        if(isset($_POST['addItemInventory'])){
+            unset($_POST['addItemInventory']);
+            $nm = mysqli_real_escape_string($database->connection, $_POST['invItemName']);
+            $qty = mysqli_real_escape_string($database->connection, $_POST['invItemQty']);
+            $brand = mysqli_real_escape_string($database->connection, $_POST['invItemBrand']);
+            $desc = mysqli_real_escape_string($database->connection, $_POST['invItemDescription']);
 
+            if($inventory->insertItemInventory($qty, $brand, $nm, $desc) == 1){
+                echo json_encode(array("status" => 200));
+            }elseif($inventory->insertItemInventory($qty, $brand, $nm, $desc) == 2){
+                echo json_encode(array("status" => 402));
+            }else{
+                echo json_encode(array("status" => 400));
+            }
+            return;
+        }
+
+        if(isset($_POST['editItemInventory'])){
+            unset($_POST['editItemInventory']);
+            $id = mysqli_real_escape_string($database->connection, $_POST['editItemId']);
+            $nm = mysqli_real_escape_string($database->connection, $_POST['invItemName']);
+            $qty = mysqli_real_escape_string($database->connection, $_POST['invItemQty']);
+            $brand = mysqli_real_escape_string($database->connection, $_POST['invItemBrand']);
+            $desc = mysqli_real_escape_string($database->connection, $_POST['invItemDescription']);
+            if($inventory->updateItemInventory($id, $qty, $nm, $desc, $brand)){
+                echo json_encode(array("status" => 200));
+            }else{
+                echo json_encode(array("status" => 400));
+            }
+            return;
+        }
+
+        if(isset($_POST['addProductToList'])){
+            unset($_POST['addProductToList']);
+            $nm = mysqli_real_escape_string($database->connection, $_POST['invItemName']);
+            $qty = mysqli_real_escape_string($database->connection, $_POST['invItemQty']);
+            $brand = mysqli_real_escape_string($database->connection, $_POST['invItemBrand']);
+            $desc = mysqli_real_escape_string($database->connection, $_POST['invItemDescription']);
+            $price = mysqli_real_escape_string($database->connection, $_POST['invItemPrice']);
+            if($products->insertProductToList($qty, $brand, $nm, $desc, $price)==1){
+                echo json_encode(array("status" => 200));
+            }elseif($products->insertProductToList($qty, $brand, $nm, $desc, $price)==2){
+                echo json_encode(array("status" => 402));
+            }else{
+                echo json_encode(array("status" => 400));
+            }
+            return;
+        }
+
+        if(isset($_POST['addAccount'])){
+            unset($_POST['addAccount']);
+            $user = mysqli_real_escape_string($database->connection, $_POST['accountUser']);
+            $email = mysqli_real_escape_string($database->connection, $_POST['accountEmail']);
+            $pass = mysqli_real_escape_string($database->connection, $_POST['accountPassword']);
+            $role = mysqli_real_escape_string($database->connection, $_POST['accountRole']);
+            if($accounts->addAccount($user, $pass, $email, $role) == 1){
+                echo json_encode(array("status" => 200));
+            }elseif($accounts->addAccount($user, $pass, $email, $role) == 2){
+                echo json_encode(array("status" => 402));
+            }else{
+                echo json_encode(array("status" => 400));
+            }
+            return;
+        }
 
         /*Notification */
 

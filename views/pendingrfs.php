@@ -3,9 +3,9 @@
         <!-- head -->
         <thead class="bg-base-100 text-white">
             <tr>
-                <th>PO #</th>
-                <th>Requistor</th>
-                <th>Request Data</th>
+                <th>RF #</th>
+                <th>Requestor</th>
+                <th>Request Date</th>
                 <th>Status</th>
                 <th></th>
             </tr>
@@ -75,7 +75,7 @@
     <div class="modal-box w-11/12 max-w-5xl bg-gray-800 max-h-5/6">
         <h3 class="font-bold text-lg pb-2">Approve and Create Purchase Order</h3>
         <hr>
-        <form action="/backend/action.php" method="post" class="poForm" id="poForm">
+        <form action="/backend/action.php/" method="post" class="poForm" id="poForm">
             <input type="hidden" name="approvePurchaseOrderSubmit">
             <input type="hidden" class="porfID" name="porfID" value="">
             <table id="rfTable" class="table table-pin-rows table-compact table-xs pt-5 w-full border-separate leading-normal">
@@ -141,124 +141,126 @@
             </form>
         </div>
     </div>
-    
-<style>
-    .loader {
-        border-top-color: #3498db;
-        -webkit-animation: spinner 1.5s linear infinite;
-        animation: spinner 1.5s linear infinite;
-    }
 
-    @-webkit-keyframes spinner {
-        0% {
-            -webkit-transform: rotate(0deg);
+    <style>
+        .loader {
+            border-top-color: #3498db;
+            -webkit-animation: spinner 1.5s linear infinite;
+            animation: spinner 1.5s linear infinite;
         }
 
-        100% {
-            -webkit-transform: rotate(360deg);
-        }
-    }
+        @-webkit-keyframes spinner {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
 
-    @keyframes spinner {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    .checkContainer svg, .errorContainer svg {
-        width: 100px;
-        display: block;
-        margin: 40px auto 0;
-    }
-
-    .checkContainer svg .path, .errorContainer svg .path {
-        stroke-dasharray: 1000;
-        stroke-dashoffset: 0;
-
-        &.circle {
-            -webkit-animation: dash .9s ease-in-out;
-            animation: dash .9s ease-in-out;
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
         }
 
-        &.line {
-            stroke-dashoffset: 1000;
-            -webkit-animation: dash .9s .35s ease-in-out forwards;
-            animation: dash .9s .35s ease-in-out forwards;
+        @keyframes spinner {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
-        &.check {
-            stroke-dashoffset: -100;
-            -webkit-animation: dash-check .9s .35s ease-in-out forwards;
-            animation: dash-check .9s .35s ease-in-out forwards;
-        }
-    }
-
-
-    @-webkit-keyframes dash {
-        0% {
-            stroke-dashoffset: 1000;
+        .checkContainer svg,
+        .errorContainer svg {
+            width: 100px;
+            display: block;
+            margin: 40px auto 0;
         }
 
-        100% {
+        .checkContainer svg .path,
+        .errorContainer svg .path {
+            stroke-dasharray: 1000;
             stroke-dashoffset: 0;
-        }
-    }
 
-    @keyframes dash {
-        0% {
-            stroke-dashoffset: 1000;
-        }
+            &.circle {
+                -webkit-animation: dash .9s ease-in-out;
+                animation: dash .9s ease-in-out;
+            }
 
-        100% {
-            stroke-dashoffset: 0;
-        }
-    }
+            &.line {
+                stroke-dashoffset: 1000;
+                -webkit-animation: dash .9s .35s ease-in-out forwards;
+                animation: dash .9s .35s ease-in-out forwards;
+            }
 
-    @-webkit-keyframes dash-check {
-        0% {
-            stroke-dashoffset: -100;
-        }
-
-        100% {
-            stroke-dashoffset: 900;
-        }
-    }
-
-    @keyframes dash-check {
-        0% {
-            stroke-dashoffset: -100;
+            &.check {
+                stroke-dashoffset: -100;
+                -webkit-animation: dash-check .9s .35s ease-in-out forwards;
+                animation: dash-check .9s .35s ease-in-out forwards;
+            }
         }
 
-        100% {
-            stroke-dashoffset: 900;
+
+        @-webkit-keyframes dash {
+            0% {
+                stroke-dashoffset: 1000;
+            }
+
+            100% {
+                stroke-dashoffset: 0;
+            }
         }
-    }
-</style>
-<div class="rounded-md overflow-auto">
-    <div wire:loading style="display:none" class="loadOverlay fixed top-0 left-0 right-0 bottom-0 w-full h-100 z-50 overflow-hidden bg-gray-700 opacity-75 flex flex-col items-center justify-center">
-        <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
-        <div class="checkContainer" style="display:none">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-                <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
-                <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
-            </svg>
+
+        @keyframes dash {
+            0% {
+                stroke-dashoffset: 1000;
+            }
+
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @-webkit-keyframes dash-check {
+            0% {
+                stroke-dashoffset: -100;
+            }
+
+            100% {
+                stroke-dashoffset: 900;
+            }
+        }
+
+        @keyframes dash-check {
+            0% {
+                stroke-dashoffset: -100;
+            }
+
+            100% {
+                stroke-dashoffset: 900;
+            }
+        }
+    </style>
+    <div class="rounded-md overflow-auto">
+        <div wire:loading style="display:none" class="loadOverlay fixed top-0 left-0 right-0 bottom-0 w-full h-100 z-50 overflow-hidden bg-gray-700 opacity-75 flex flex-col items-center justify-center">
+            <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+            <div class="checkContainer" style="display:none">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                    <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
+                    <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+                </svg>
+            </div>
+
+            <div class="errorContainer" style="display:none">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                    <circle class="path circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
+                    <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3" />
+                    <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2" />
+                </svg>
+            </div>
+            <br>
+            <h2 class="text-center text-white text-xl font-semibold loadTextTitle">Submitting form...</h2>
+            <p class="w-1/3 text-center text-white loadTextDescription">This may take a few seconds, please don't close this page.</p>
         </div>
-
-        <div class="errorContainer" style="display:none">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-                <circle class="path circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
-                <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3" />
-                <line class="path line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2" />
-            </svg>
-        </div>
-        <br>
-        <h2 class="text-center text-white text-xl font-semibold loadTextTitle">Submitting form...</h2>
-        <p class="w-1/3 text-center text-white loadTextDescription">This may take a few seconds, please don't close this page.</p>
-    </div>
 </dialog>
 
 
@@ -267,7 +269,7 @@
         <h3 class="font-bold text-lg">Decline request?</h3>
         <p class="text-slate-300">NOTE: This action cannot be undone once confirmed.</p>
         <div class="modal-action">
-            
+
             <button class="rfDeclineFinalBtn btn rounded-md bg-error text-white">Confirm</button>
             <form method="dialog">
                 <!-- if there is a button in form, it will close the modal -->
@@ -278,6 +280,6 @@
 </dialog>
 
 
-<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script defer src="/js/Alpine.js"></script>
 <script src="/js/rfpo.js"></script>
 <script src="/js/rfs.js"></script>

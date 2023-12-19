@@ -43,7 +43,6 @@ body {
     margin: 0;
     font-family: var(--font);
     color: #fefefe;
-    background-color: #252525;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -58,7 +57,7 @@ body {
 }
 
 body .video {
-    position: fixed;
+    position: absolute;
     left: 0;
     top: 0;
     width: 100%;
@@ -120,12 +119,15 @@ main .menu {
 }
 
 main .menu:hover,
-main .menu:active {
+main .menu:active  {
     width: 200px;
     border-radius: 0 var(--radius) var(--radius) 0;
+
 }
 
+
 main .menu .avatar {
+    
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -149,13 +151,10 @@ main .menu .avatar .name {
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    -webkit-transition: all 0.2s ease;
-    -o-transition: all 0.2s ease;
-    transition: all 0.2s ease;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    width: 100%;
+    display: none;
     text-align: center;
     user-select: none;
 }
@@ -164,6 +163,8 @@ main .menu:hover .avatar .name,
 main .menu:active .avatar .name {
     opacity: 1;
     visibility: visible;
+    display: inline-block;
+    width: 100%;
 }
 
 main .menu .primary {
@@ -757,7 +758,11 @@ main .side .weather .meta .datetime .time {
     }
 
     main .menu .avatar .thumb {
+        width: 100%;
         max-width: 70px;
+        -webkit-transition: all 1s ease;
+        -o-transition: all 1s ease;
+        transition: all 1s ease;
     }
 
     main .topbar {
@@ -856,6 +861,10 @@ input[type=number] {
     border: 1px solid rgb(255, 108, 108) !important;
 }
 
+.rfError {
+    border: 1px solid rgb(255, 108, 108) !important;
+}
+
 .sticky {
     position: fixed;
     top: 0;
@@ -864,3 +873,4 @@ input[type=number] {
     margin-top: 24px;
     z-index: 10;
 }   
+

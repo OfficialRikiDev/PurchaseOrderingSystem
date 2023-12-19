@@ -70,7 +70,7 @@ $('.rfDeclineFinalBtn').on('click', function(){
             console.log(obj);
             if(obj.status == "200"){
                 Alpine.store('toasts').createToast(
-                    "RF Form updated successfully",
+                    "Request declined successfully",
                     'success'
                 );
                 declineRfsModal.close();

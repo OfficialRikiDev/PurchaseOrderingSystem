@@ -50,7 +50,7 @@ $("#loginBtn").click(function () {
             } else {
                 Alpine.store('toasts').createToast(
                     data.message,
-                    'error'
+                    'error', 500
                 )
                 $('#loginBtn').prop("disabled", false);
                 $('#loginForm').addClass('shake');

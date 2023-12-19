@@ -25,13 +25,15 @@
         }
     }
 
-    .checkContainer svg, .errorContainer svg {
+    .checkContainer svg,
+    .errorContainer svg {
         width: 100px;
         display: block;
         margin: 40px auto 0;
     }
 
-    .checkContainer svg .path, .errorContainer svg .path {
+    .checkContainer svg .path,
+    .errorContainer svg .path {
         stroke-dasharray: 1000;
         stroke-dashoffset: 0;
 
@@ -93,6 +95,14 @@
             stroke-dashoffset: 900;
         }
     }
+
+    #itemDetails {
+        visibility: hidden;
+    }
+
+    .rfProds:hover ~ #itemDetails {
+        visibility: hidden;
+    }
 </style>
 <div class="rounded-md overflow-auto">
     <div wire:loading style="display:none" class="loadOverlay fixed top-0 left-0 right-0 bottom-0 w-full h-100 z-50 overflow-hidden bg-gray-700 opacity-75 flex flex-col items-center justify-center">
@@ -142,6 +152,20 @@
                     </th>
                 </tr>
             </thead>
+            <div id="itemDetails" class="z-50 absolute bg-opacity-60 bg-black backdrop-filter backdrop-blur-lg p-3 rounded-2xl shadow-lg w-72 h-auto shadow-md rounded m-3">
+                <div class="h-2/4 w-full">
+                    <img class="w-full h-48 object-cover rounded-t" src="https://images.pexels.com/photos/6157052/pexels-photo-6157052.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="piña">
+                </div>
+                <div class="w-full h-1/4 p-3">
+                    <a href="#" class=" hover:text-yellow-600 text-white-700">
+                        <span class="itemName text-lg font-semibold uppercase tracking-wide ">Pineapple</span>
+                    </a>
+                    <p class="itemDescription text-white-600 text-sm leading-5 mt-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    
+                </div>
+                <p class="itemPrice ps-3 font-bold text-white-600 text-sm leading-5 mt-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+
             <tbody class="rfTableBody bg-neutral flex-1 sm:flex-none">
 
                 <tr class="rfRow editable flex h-9 hover:bg-gray-700 text-sm table-row flex-col w-full flex-wrap" data-price="" data-hidden="true">
@@ -157,23 +181,24 @@
                     <td class="p-1 font-bold rfItemTotal text-center" data-total="0"></td>
                 </tr>
             </tbody>
+
             <tfoot class="flex-1 sm:flex-none bg-base-100 text-white">
                 <tr class="flex h-8 text-sm table-row flex-col w-full flex-wrap">
 
-                    <td colspan="6"  class="p-1 text-right font-semibold ">
-                        <div class="w-full">    <button class="px-2 rounded-md bg-sky-600 text-white me-2" type="submit" form="rfForm">Submit</button><button type="button" class="addRowBtn mr-5 px-2 rounded-md bg-sky-600 text-white">Add row</button>Total : </div>
+                    <td colspan="6" class="p-1 text-right font-semibold ">
+                        <div class="w-full"> <button class="px-2 rounded-md bg-sky-600 text-white me-2" type="submit" form="rfForm">Submit</button><button type="button" class="addRowBtn mr-5 px-2 rounded-md bg-sky-600 text-white">Add row</button>Total : </div>
                     </td>
-                    <td  class="p-1 font-bold ">
+                    <td class="p-1 font-bold ">
                         <div class="w-full rfsubTotal text-sm text-center" data-total="0">₱0</div>
                     </td>
                 </tr>
             </tfoot>
-        <table>
-        <br>
+            <table>
+                <br>
     </form>
-    
+
 </div>
-<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script defer src="/js/Alpine.js"></script>
 <script src="/js/rf-table.js"></script>
 
 <div x-data="{ position : 'top-left' }" class="absolute top-0 right-0 px-2 mt-3 overflow-x-hidden z-50 max-w-xs" :class="{
