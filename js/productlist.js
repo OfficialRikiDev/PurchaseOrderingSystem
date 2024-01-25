@@ -28,7 +28,7 @@ document.addEventListener('alpine:init', () => {
 
 $(document).ready(function() {
     $.ajax({
-        url:"backend/action.php",
+        url:"/backend/action.php",
         method: "POST",
         data:{getProduct : 'getProduct'},
         success:function(data)
@@ -45,7 +45,7 @@ $(document).ready(function() {
 
 function editItem(id){
     $.ajax({
-        url:"backend/action.php",
+        url:"/backend/action.php",
         method: "POST",
         data:{getProductData : 'getProductData',
             item_id: id},
@@ -109,7 +109,7 @@ frm.submit(function (e) {
 
                 
                 $.ajax({
-                    url:"backend/action.php",
+                    url:"/backend/action.php",
                     method: "POST",
                     data:{getProduct : 'getProduct'},
                     success:function(data)
@@ -176,7 +176,7 @@ frm2.submit(function (e) {
                 );
                 editItemInventory.close();
                 $.ajax({
-                    url:"backend/action.php",
+                    url:"/backend/action.php",
                     method: "POST",
                     data:{getProduct : 'getProduct'},
                     success:function(data)

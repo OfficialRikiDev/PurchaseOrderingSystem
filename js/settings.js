@@ -8,16 +8,6 @@ document.body.addEventListener("click", function (e) {
 });
 
 
-document.getElementById('userdropdown').addEventListener('click', function () {
-    if (document.getElementById('usermenu').classList.contains('invisible')) {
-        document.getElementById('usermenu').classList.remove('invisible');
-        userDropDownVisible = true;
-    } else {
-        document.getElementById('usermenu').classList.add('invisible');
-        userDropDownVisible = false;
-    }
-});
-
 // javascript functionality to preview photo file upload
 
 window.loadFile = function (event) {

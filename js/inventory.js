@@ -2,7 +2,7 @@
 
 $(document).ready(function() {
     $.ajax({
-        url:"backend/action.php",
+        url:"/backend/action.php",
         method: "POST",
         data:{getInventoryItems : 'getInventoryItems'},
         success:function(data)
@@ -46,7 +46,7 @@ document.addEventListener('alpine:init', () => {
 
 function openEditBox(id){
     $.ajax({
-        url:"backend/action.php",
+        url:"/backend/action.php",
         method: "POST",
         data:{getInventoryItemData : 'getInventoryItemData',
             item_id: id},
@@ -106,7 +106,7 @@ frm.submit(function (e) {
                 );
                 
                 $.ajax({
-                    url:"backend/action.php",
+                    url:"/backend/action.php",
                     method: "POST",
                     data:{getInventoryItems : 'getInventoryItems'},
                     success:function(data)
@@ -174,7 +174,7 @@ frm2.submit(function (e) {
                 );
                 editItemInventory.close();
                 $.ajax({
-                    url:"backend/action.php",
+                    url:"/backend/action.php",
                     method: "POST",
                     data:{getInventoryItems : 'getInventoryItems'},
                     success:function(data)

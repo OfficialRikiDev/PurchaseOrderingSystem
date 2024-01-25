@@ -1,110 +1,148 @@
+<?php
+include_once($_SERVER['DOCUMENT_ROOT'] . '/autoload.php');
+?>
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="overflow-x-auto w-100">
-    <label for="addProdModal" class="btn btn-xs btn-primary mb-2 float-right" onclick="addProdModal.showModal()">Add Item</label>
-    <table class="table" style="width: 100%">
-        <thead class="bg-base-100 text-white">
-            <tr>
-                <th>ID</th>
-                <th>Product Name</th>
-                <th>Supplier</th>
-                <th>Qty</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody class="invBody bg-neutral">
-            
-        </tbody>    
-        <tfoot class="bg-base-100">
-            <td colspan="5"></td>
-        </tfoot>
-    </table>
-</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/iconoir.css">
+    <link href="/css/flowbite.min.css" rel="stylesheet" />
+    <script src="/js/SimpleCellTableEditor.js"></script>
+    <link href="/css/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="/css/tailwind.css"></script>
+    <script src="
+https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.jquery.min.js
+"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.min.css
+" rel="stylesheet">
+    <title><?php echo $websettings->getSettings()['website_name']; ?></title>
+</head>
 
+<body class="antialiased">
+    <link rel="stylesheet" href="/css/dashboard.css">
 
+    <main class="container">
+        <div class="menu">
+            <div class="avatar">
+                <img class="thumb" src="https://ui-avatars.com/api/?name=<?php echo "" . $_SESSION['username']; ?>" />
+                <span class="name">@<?php echo $_SESSION['username']; ?></span>
+            </div>
+            <nav class="primary">
+                <a href="#" class="menu-item">
+                    <span class="iconoir-report-columns"></span>
+                    <span class="desc">Dashboard</span>
+                </a>
+                <?php
+                if ($_SESSION['role'] == "3") {
+                    echo '<a href="#" class="menu-item">
+                        <span class="iconoir-page"></span>
+                        <span class="desc truncate">Request Form</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                    <span class="iconoir-box-iso"></span>
+                    <span class="desc truncate">Inventory</span>
+                </a>';
+                } else if ($_SESSION['role'] == "2") {
+                    echo '<a href="#" class="menu-item">
+                        <span class="iconoir-google-docs"></span>
+                        <span class="desc truncate">Recieved POs</span>
+                    </a>
+                    <a href="#" class="menu-item active">
+                    <span class="iconoir-box-iso"></span>
+                    <span class="desc truncate">Product List</span>
+                </a>';
+                } else if ($_SESSION['role'] == "1") {
+                    echo '<a href="#" class="menu-item">
+                        <span class="iconoir-google-docs"></span>
+                        <span class="desc truncate">Pending RFs</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <span class="iconoir-google-docs"></span>
+                        <span class="desc truncate">Purchase Orders</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <span class="iconoir-box-iso"></span>
+                        <span class="desc truncate">Inventory</span>
+                    </a>';
+                } else {
+                    echo '
+                    <a href="#" class="menu-item">
+                        <span class="iconoir-group"></span>
+                        <span class="desc truncate">Accounts</span>
+                    </a>';
+                }
+                ?>
 
-<dialog id="addProdModal" class="modal">
-    <div class="modal-box">
-    <form action="/backend/action.php" method="post" id="addProductForm">
-        <h3 class="font-bold text-lg pb-3">Add Item To Inventory</h3>
-        <hr>
-        <div class="form-control w-full">
-        <label class="label">
-            <span class="label-text">Product Name</span>
-        </label>
-        <input type="text" name="invItemName" placeholder="Enter product name" class="input input-bordered w-full max-w-full" />
-        <label class="label">
-            <span class="label-text">Price</span>
-        </label>
-        <input type="number" min="1" step="any" name="invItemPrice" placeholder="Enter product price" class="input input-bordered w-full max-w-full" />
-        <label class="label">
-            <span class="label-text">Quantity</span>
-        </label>
-        <input type="number" name="invItemQty" placeholder="Enter quantity" class="input input-bordered w-full max-w-full" />
-        <label class="label">
-            <span class="label-text">Brand</span>
-        </label>
-        <input type="text" name="invItemBrand" placeholder="Enter item brand" class="input input-bordered w-full max-w-full" />
-        <label class="label">
-            <span class="label-text">Description</span>
-        </label>
-        <input type="text" name="invItemDescription" placeholder="Enter item description" class="invItemDescription input input-bordered w-full max-w-full" />
+                <a href="#" class="menu-item">
+                    <span class="iconoir-settings"></span>
+                    <span class="desc truncate">Settings</span>
+                </a>
+                <a href="/logout.php" class="menu-item">
+                    <span class="iconoir-log-out"></span>
+                    <span class="desc truncate">Logout</span>
+                </a>
+            </nav>
+            <span class="expander iconoir-arrow-right"></span>
         </div>
-        <div class="modal-action">
-            <input type="hidden" name="addProductToList">
-            
-        </div>
-        </form>
-        <form method="dialog">
-            <!-- if there is a button in form, it will close the modal -->
-            <button class="px-5 btn rounded-md bg-sky-600 text-white" form="addProductForm" type="submit">Add</button>
-            <button class="btn">Close</button>
-        </form>
-    </div>
-</dialog>
+        <div class="topbar">
+            <h1 class="current">Dashboard</h1>
 
-<dialog id="editItemInventory" class="modal">
-    <div class="modal-box">
-    <form action="/backend/action.php" method="post" id="editItemInventoryForm">
-        <input type="hidden" name="editItemId" class="editItemId">
-        <h3 class="font-bold text-lg pb-3">Edit Item</h3>
-        <hr>
-        <div class="form-control w-full">
-        <label class="label">
-            <span class="label-text">Product Name</span>
-        </label>
-        <input type="text" name="invItemName" placeholder="Enter product name" class="editItemName input input-bordered w-full max-w-full" />
-        <label class="label">
-            <span class="label-text">Price</span>
-        </label>
-        <input type="number" step="any" name="invItemPrice" placeholder="Enter price" class="editItemPrice input input-bordered w-full max-w-full" />
-        <label class="label">
-            <span class="label-text">Quantity</span>
-        </label>
-        <input type="number" name="invItemQty" placeholder="Enter quantity" class="editItemQty input input-bordered w-full max-w-full" />
-        <label class="label">
-            <span class="label-text">Brand</span>
-        </label>
-        <input type="text" name="invItemBrand" placeholder="Enter item brand" class="editItemBrand input input-bordered w-full max-w-full" />
-        <label class="label">
-            <span class="label-text">Description</span>
-        </label>
-        <input type="text" name="invItemDescription" placeholder="Enter item description" class="editItemDesc invItemDescription input input-bordered w-full max-w-full" />
-        </div>
-        <div class="modal-action">
-            <input type="hidden" name="editProduct">
-            
-        </div>
-        </form>
-        <form method="dialog">
-            <!-- if there is a button in form, it will close the modal -->
-            <button class="px-5 btn rounded-md bg-sky-600 text-white" form="editItemInventoryForm" type="submit">Save</button>
-            <button class="btn">Close</button>
-        </form>
-    </div>
-</dialog>
+            <span class="search">
+                <label><span class="iconoir-search"></span></label>
+                <input class="bar" type="text" placeholder="Search..." />
+            </span>
+
+            <button id="dropdownNotificationButton" data-dropdown-toggle="dropdownNotification" class="ms-12  inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400" type="button">
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 20">
+                    <path d="M12.133 10.632v-1.8A5.406 5.406 0 0 0 7.979 3.57.946.946 0 0 0 8 3.464V1.1a1 1 0 0 0-2 0v2.364a.946.946 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C1.867 13.018 0 13.614 0 14.807 0 15.4 0 16 .538 16h12.924C14 16 14 15.4 14 14.807c0-1.193-1.867-1.789-1.867-4.175ZM3.823 17a3.453 3.453 0 0 0 6.354 0H3.823Z" />
+                </svg>
+                <div class="notif-bubble relative flex hidden">
+                    <div class="relative inline-flex w-2 h-2 bg-red-500 border-1 border-white rounded-full -top-2 right-2 dark:border-gray-900"></div>
+                </div>
+            </button>
+
+            <!-- Dropdown menu -->
+            <div id="dropdownNotification" class="z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700" aria-labelledby="dropdownNotificationButton">
+                <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
+                    Notifications
+                </div>
+                <div class="notification-content divide-y overflow-y-auto h-60 divide-gray-100 dark:divide-gray-700">
+                    <div class="shadow rounded-md h-100 p-4 max-w-sm w-full mx-auto">
+                        <div class="animate-pulse flex space-x-4">
+                            <div class="rounded-full bg-slate-700 h-10 w-10"></div>
+                            <div class="flex-1 space-y-6 py-1">
+                                <div class="h-2 bg-slate-700 rounded"></div>
+                                <div class="space-y-3">
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                                        <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                                    </div>
+                                    <div class="h-2 bg-slate-700 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
+                    <div class="inline-flex items-center ">
+
+                        <svg class="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 14">
+                            <path d="M10 0C4.612 0 0 5.336 0 7c0 1.742 3.546 7 10 7 6.454 0 10-5.258 10-7 0-1.664-4.612-7-10-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
+                        </svg>
+                        View all
+                    </div>
+                </a>
+            </div>
 
 
-<div x-data="{ position : 'bottom-right' }" class="absolute top-0 right-0 px-2 mt-3 overflow-x-hidden z-50 max-w-xs" :class="{
+        </div>
+        <div class="dashboard">
+        <div x-data="{ position : 'bottom-right' }" class="absolute top-0 right-0 px-2 mt-3 overflow-x-hidden z-50 max-w-xs" :class="{
                 'top-0 right-0': position =='top-right',
                 'top-0 left-0': position == 'top-left',
                 'bottom-0 left-0': position =='bottom-left',
@@ -154,7 +192,152 @@
         </div>
     </template>
 </div>
+            <div class="overflow-x-auto w-100">
+                <label for="addProdModal" class="btn btn-xs btn-primary mb-2 float-right" onclick="addProdModal.showModal()">Add Item</label>
+                <table class="table" style="width: 100%">
+                    <thead class="bg-base-100 text-white">
+                        <tr>
+                            <th>ID</th>
+                            <th>Product Name</th>
+                            <th>Supplier</th>
+                            <th>Qty</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="invBody bg-neutral">
+
+                    </tbody>
+                    <tfoot class="bg-base-100">
+                        <td colspan="5"></td>
+                    </tfoot>
+                </table>
+            </div>
 
 
-<script src="/js/Alpine.js"></script>
-<script src="/js/productlist.js"></script>
+
+            <dialog id="addProdModal" class="modal">
+                <div class="modal-box">
+                    <form action="/backend/action.php" method="post" id="addProductForm">
+                        <h3 class="font-bold text-lg pb-3">Add Item To Inventory</h3>
+                        <hr>
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text">Product Name</span>
+                            </label>
+                            <input type="text" name="invItemName" placeholder="Enter product name" class="input input-bordered w-full max-w-full" />
+                            <label class="label">
+                                <span class="label-text">Price</span>
+                            </label>
+                            <input type="number" min="1" step="any" name="invItemPrice" placeholder="Enter product price" class="input input-bordered w-full max-w-full" />
+                            <label class="label">
+                                <span class="label-text">Quantity</span>
+                            </label>
+                            <input type="number" name="invItemQty" placeholder="Enter quantity" class="input input-bordered w-full max-w-full" />
+                            <label class="label">
+                                <span class="label-text">Brand</span>
+                            </label>
+                            <input type="text" name="invItemBrand" placeholder="Enter item brand" class="input input-bordered w-full max-w-full" />
+                            <label class="label">
+                                <span class="label-text">Description</span>
+                            </label>
+                            <input type="text" name="invItemDescription" placeholder="Enter item description" class="invItemDescription input input-bordered w-full max-w-full" />
+                        </div>
+                        <div class="modal-action">
+                            <input type="hidden" name="addProductToList">
+
+                        </div>
+                    </form>
+                    <form method="dialog">
+                        <!-- if there is a button in form, it will close the modal -->
+                        <button class="px-5 btn rounded-md bg-sky-600 text-white" form="addProductForm" type="submit">Add</button>
+                        <button class="btn">Close</button>
+                    </form>
+                </div>
+            </dialog>
+
+            <dialog id="editItemInventory" class="modal">
+                <div class="modal-box">
+                    <form action="/backend/action.php" method="post" id="editItemInventoryForm">
+                        <input type="hidden" name="editItemId" class="editItemId">
+                        <h3 class="font-bold text-lg pb-3">Edit Item</h3>
+                        <hr>
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text">Product Name</span>
+                            </label>
+                            <input type="text" name="invItemName" placeholder="Enter product name" class="editItemName input input-bordered w-full max-w-full" />
+                            <label class="label">
+                                <span class="label-text">Price</span>
+                            </label>
+                            <input type="number" step="any" name="invItemPrice" placeholder="Enter price" class="editItemPrice input input-bordered w-full max-w-full" />
+                            <label class="label">
+                                <span class="label-text">Quantity</span>
+                            </label>
+                            <input type="number" name="invItemQty" placeholder="Enter quantity" class="editItemQty input input-bordered w-full max-w-full" />
+                            <label class="label">
+                                <span class="label-text">Brand</span>
+                            </label>
+                            <input type="text" name="invItemBrand" placeholder="Enter item brand" class="editItemBrand input input-bordered w-full max-w-full" />
+                            <label class="label">
+                                <span class="label-text">Description</span>
+                            </label>
+                            <input type="text" name="invItemDescription" placeholder="Enter item description" class="editItemDesc invItemDescription input input-bordered w-full max-w-full" />
+                        </div>
+                        <div class="modal-action">
+                            <input type="hidden" name="editProduct">
+
+                        </div>
+                    </form>
+                    <form method="dialog">
+                        <!-- if there is a button in form, it will close the modal -->
+                        <button class="px-5 btn rounded-md bg-sky-600 text-white" form="editItemInventoryForm" type="submit">Save</button>
+                        <button class="btn">Close</button>
+                    </form>
+                </div>
+            </dialog>
+            
+        </div>
+        <div class="side">
+            <div class="card weather">
+                <img class="condition" src="https://user-images.githubusercontent.com/30212452/203724734-5f748507-7ae4-49f9-89f8-7fce3112cd95.png" />
+                <div class="content"></div>
+                <div class="meta">
+                    <span class="location"></span>
+                    <div class="datetime">
+                        <span class="iconoir-calendar"></span>
+                        <span class="date"></span>
+                        <span class="time"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <header>Schedule</header>
+                <div class="content">
+                    <ul>
+                        <li>(15:30) Deliver the project to client</li>
+                        <li>(18:00) Meet Mike @ White Goose</li>
+                        <li>(19:30) Dinner with Mary @ Kit-Bar</li>
+                        <li>(22:00) Watch the Falcons match</li>
+                        <li>(23:30) Headspace Meditate</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="video">
+        <video muted playsinline autoplay loop>
+            <source src="/assets/dbbg.mp4" type="video/mp4">
+        </video>
+    </div>
+    
+    
+    <script src="/js/flowbite.min.js"></script>
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/dashboard-notification.js"></script>
+    <script defer src="/js/Alpine.js"></script>
+    <script src="/js/productlist.js"></script>
+    
+
+</body>
+
+</html>

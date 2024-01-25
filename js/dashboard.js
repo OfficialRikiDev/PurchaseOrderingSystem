@@ -40,7 +40,7 @@ menuItems.forEach((item) => {
     
     item.addEventListener("click", () => {
         var current = item.querySelector(".desc").textContent;
-        var content = function() {
+        /**var content = function() {
             var result;
             $.ajax({
                 async: false,
@@ -52,19 +52,16 @@ menuItems.forEach((item) => {
                 }
             });
             return result;
-        }();
+        }();**/
         if(lastContent.toLowerCase() != current.toLowerCase()){
             document.querySelector(".current").innerHTML = current;
-            if (current == "Dashboard") {
-                setInnerHTML(dashboard, $(content).find(".dashboard").html());
-                dummyData();
-            }else{
-                setInnerHTML(dashboard,content);
-            }
+            location.href = "/views/"+current.toLowerCase().replace(/\s/g, '')+".php";
             menuItems.forEach((item) => item.classList.remove("active"));
             item.classList.add("active");
             lastContent = current;
-        }
+        }else{
+            location.href = "/";
+        }   
     });
 });
 

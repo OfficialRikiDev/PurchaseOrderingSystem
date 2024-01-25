@@ -1,6 +1,6 @@
 function updateBody(){
     $.ajax({
-        url:"backend/action.php",
+        url:"/backend/action.php",
         method: "POST",
         data:{getPOS : 'getPOS'},
         success:function(data)
@@ -16,7 +16,7 @@ function updateBody(){
                 console.log(rfId);
                 $('.porfID').val(rfId);
                 $.ajax({
-                    url:"backend/action.php",
+                    url:"/backend/action.php",
                     method: "POST",
                     data: { id: rfId, getFormData: "getFormData" },
                     success: function (data) {
@@ -48,7 +48,7 @@ function updateInner(){
         var result;
         $.ajax({
             async: false,
-            url:"backend/action.php",
+            url:"/backend/action.php",
             method: "POST",
             data:{getView : current},
             success: function(data){
@@ -63,7 +63,7 @@ function updateInner(){
 
 $('.rfDeclineFinalBtn').on('click', function(){
     $.ajax({
-        url:"backend/action.php",
+        url:"/backend/action.php",
         method: "POST",
         data: { id: rfId, declineRF: "declineRF" },
         success: function (data) {
