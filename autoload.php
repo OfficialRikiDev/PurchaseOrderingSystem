@@ -1,8 +1,11 @@
 <?php
     session_start();
     date_default_timezone_set('Asia/Manila'); 
-    include_once('backend/database.php');
-    include_once('backend/core.php');
+    require_once('backend/database.php');
+    require_once('backend/core.php');
+    require_once('backend/classes/authenticate.php');
+    require_once('backend/classes/data.php');
+    require_once('backend/classes/store.php');
     require_once 'dompdf/autoload.inc.php'; 
 
     $database = new Database('localhost', 'root', '', 'transtrack');
@@ -13,6 +16,8 @@
     $orders = new Order($database->connection);    
     $accounts = new Account($database->connection);
     $inventory = new Inventory($database->connection);
+    $data = new Data($database->connection);
+    $store = new Store($database->connection);
     $views = new Views();
 
 ?>

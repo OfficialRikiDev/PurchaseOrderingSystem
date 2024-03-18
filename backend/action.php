@@ -21,15 +21,70 @@
             }
         }
 
-        if (!isset($_SESSION['isLoggedIn']) && !$_SESSION['isLoggedIn'] && !isset($_POST['login'])) {
-            echo '<script> location.reload(); </script>';
+
+        
+        if(isset($_POST['apply'])){
+            $username = mysqli_real_escape_string($database->connection,$_POST['username']);
+            $email = mysqli_real_escape_string($database->connection,$_POST['email']);
+            $password = mysqli_real_escape_string($database->connection,$_POST['password']);
+            $repass = mysqli_real_escape_string($database->connection,$_POST['repassword']);
+            $business = mysqli_real_escape_string($database->connection,$_POST['business_name']);
+            $phone = mysqli_real_escape_string($database->connection,$_POST['phone']);
+            $country = mysqli_real_escape_string($database->connection,$_POST['country']);
+            $street = mysqli_real_escape_string($database->connection,$_POST['street']);
+            $city = mysqli_real_escape_string($database->connection,$_POST['city']);
+            $state = mysqli_real_escape_string($database->connection,$_POST['state']);
+            $zip = mysqli_real_escape_string($database->connection,$_POST['zip']);
+
+            $query = $authenticate->Apply($username, $email, $password, $repass, $business, $phone, $country, $street, $city, $state, $zip);
+            if($query == 1){
+                header("Content-Type: application/json");
+                echo json_encode(array('code' => 200, 'message' => 'Application successful.'));
+                return;
+            }else if($query == 3){
+                header("Content-Type: application/json");
+                echo json_encode(array('code' => 401, 'message' => 'Password and confirm password did not match.'));
+                return;
+            }else if($query == 2){
+                header("Content-Type: application/json");
+                echo json_encode(array('code' => 401, 'message' => 'Username already exists.'));
+                return;
+            }else if($query == 4){
+                header("Content-Type: application/json");
+                echo json_encode(array('code' => 401, 'message' => 'Email already exists.'));
+                return;
+            }
+        }
+
+        if(isset($_POST['getSuppliers'])){
+            echo $data->getSuppliers();
             return;
         }
 
-        
+        if(isset($_POST['approveAccount'])){
+            if($data->approveAccount($_POST['id'])){
+                echo json_encode(array('code' => 200, 'message' => 'Success.'));
+            }else{
+                echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+            }
+            return;
+        }
 
 
-
+        if(isset($_POST['addProductListing'])){
+            $name = mysqli_real_escape_string($database->connection,$_POST['product_name']);
+            $price = mysqli_real_escape_string($database->connection,$_POST['product_price']);
+            $supplier = mysqli_real_escape_string($database->connection,$_SESSION['id']);
+            $description = mysqli_real_escape_string($database->connection,$_POST['description']);
+            $image = $_FILES;
+            if($store->addItem($name, $price, $supplier, $description, $image)){
+                echo json_encode(array('code' => 200, 'message' => 'Success.'));
+            }else{
+                echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+                
+            }
+            return;
+        }
 
 
 

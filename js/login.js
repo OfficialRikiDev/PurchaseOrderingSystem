@@ -25,45 +25,50 @@ document.addEventListener('alpine:init', () => {
     })
 })
 
-
-$("#loginBtn").click(function () {
-    $(this).prop("disabled", true);
-    var values = {
-        luser: $("#luser").val(),
-        lpass: $("#lpass").val(),
-        login: 'login'
-    }
-    $.ajax({
-        url: "backend/action.php",
-        type: "POST",
-        data: values,
-        success: function (data) {
-            console.log(data);  
-            if (data.code == 200) {
+$(document).ready(function() {
+    $("#loginBtn").click(function () {
+        $(this).prop("disabled", true);
+        var values = {
+            luser: $("#luser").val(),
+            lpass: $("#lpass").val(),
+            login: 'login'
+        }
+        $.ajax({
+            url: "/backend/action.php",
+            type: "POST",
+            data: values,
+            success: function (data) {
+                console.log(data);  
+                if (data.code == 200) {
+                    Alpine.store('toasts').createToast(
+                        data.message,
+                        'success'
+                    )
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    Alpine.store('toasts').createToast(
+                        data.message,
+                        'error', 500
+                    )
+                    $('#loginBtn').prop("disabled", false);
+                    $('#loginForm').addClass('shake');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(values, errorThrown);
+                $('#loginBtn').prop("disabled", false);
                 Alpine.store('toasts').createToast(
-                    data.message,
-                    'success'
-                )
-                setTimeout(function() {
-                    location.reload();
-                }, 2000);
-            } else {
-                Alpine.store('toasts').createToast(
-                    data.message,
+                    "Error occured.",
                     'error', 500
                 )
-                $('#loginBtn').prop("disabled", false);
-                $('#loginForm').addClass('shake');
             }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(textStatus, errorThrown);
-            $('#loginBtn').prop("disabled", false);
-        }
+        });
+        return false;
     });
-    return false;
-});
-
-$('#loginForm').on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(e){
-    $('#loginForm').delay(200).removeClass('shake');
+    
+    $('#loginForm').on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(e){
+        $('#loginForm').delay(200).removeClass('shake');
+    });
 });

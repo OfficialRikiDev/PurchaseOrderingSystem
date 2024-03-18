@@ -29,174 +29,101 @@ $(document).ready(function() {
     $.ajax({
         url:"/backend/action.php",
         method: "POST",
-        data:{getAccountList : 'getAccountList'},
+        data:{getSuppliers : 'getSuppliers'},
         success:function(data)
         {
-            console.log(data);
-            $(".invBody").html(data);
+            data = jQuery.parseJSON(data);
+            data.forEach(element => {
+                var template = `<tr>
+                <td>
+                    <div class="flex items-center gap-3">
+                        <div class="avatar placeholder">
+                            <div class="bg-gray-600 text-neutral-content rounded-full w-12 me-2">
+                                <span class="text-2xl">${element.profile_picture || "?"}</span>
+                            </div>
+                        </div>  
+                        <div>
+                            <div class="font-bold">${element.username}</div>
+                            <div class="text-sm opacity-50">${element.contact_no}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    ${element.company_name || "Unknown"}
+                    <br />
+                    <span class="badge badge-ghost badge-sm">${element.contact_no || "Not set"}</span>
+                </td>
+                <td >
+                    ${element.country || "Not set"}
+                    <br />
+                    <span class="badge badge-ghost badge-sm">${element.address || "Not set"}</span>
+                </td>
+                <td>
+                    ${element.state ? element.state+"," : "Not set"} ${element.city}
+                    <br />
+                    <span class="badge badge-ghost badge-sm">${element.zip_code || "Not set"}</span>
+                </td>
+                <td class="text-center">
+                    <span class="badge badge-ghost badge-sm text-${(element.is_pending || !element.activated ? "[pink]" : "success" )}">${(element.activated ? (element.is_pending ? "Pending for Approval" : "Active" ) : "Not activated")}</span>
+                </td>
+                <td class="flex flex-col gap-2">
+                    ${(element.is_pending ? `
+                    <button class="btn btn-success btn-xs" onclick="approve(this)" data-business="${element.company_name}" data-username="${element.username}" data-id="${element.id}">Approve</button>
+                    <button class="btn btn-error btn-xs">Disapprove</button>
+                    ` : 
+                    `<button class="btn btn-outline btn-xs">Edit</button>
+                    <button class="btn btn-error btn-xs">Disable</button>` )}
+                </td>
+            </tr>`;
+                $('.supplier_list').append(template);
+            });
             
         }
     });
-    
 });
 
-
-
-
-function openEditBox(id){
-    $.ajax({
-        url:"/backend/action.php",
-        method: "POST",
-        data:{getInventoryItemData : 'getInventoryItemData',
-            item_id: id},
-        success:function(data)
-        {  
-            data = jQuery.parseJSON(data);
-            $('.editItemId').val(data.id);
-            $('.editItemName').val(data.name);
-            $('.editItemDesc').val(data.description);
-            $('.editItemBrand').val(data.brand);
-            $('.editItemQty').val(data.quantity);
-            console.log(data);        
-        }
-    });
-    editItemInventory.showModal();
-}
-
-function checkEmptyValues($id){
-    let isEmpty = false;
-    $("#"+$id).find("input").each(function(){
-        if($(this).val() == '' && $(this).attr('type') != 'hidden' && !$(this).hasClass('invItemDescription')){isEmpty = true;  $(this).addClass("rfError");}
-    });
-    if(isEmpty) return false; else return true;
-}
-
-
-var frm = $('#addAccountForm');
-frm.submit(function (e) {
-    e.preventDefault(e);
-    if(!checkEmptyValues("addAccountForm")) {
-        Alpine.store('toasts').createToast(
-            "Required inputs are empty, Please fill them up.",
-            'error',
-            2000
-        );
-        return;
-    }
-
-
-    var formData = new FormData($(this)[0]);
-    $.ajax({
-        type: frm.attr('method'),
-        url: frm.attr('action'),
-        data: formData,
-        cache: false,
-        processData: false, 
-        contentType: false,
-        success: function (data) {
-            console.log(data);
-            obj = jQuery.parseJSON(data);
-            console.log(obj);
-            addAccountModal.close();
-            if(obj.status == "200"){
-                Alpine.store('toasts').createToast(
-                    "Account added successfully",
-                    'success'
-                );
+function approve(e){
+    $(e).prop("disabled", true);
+    Swal.fire({
+        title: `You're about to approve '${$(e).data('username')} [${$(e).data('business')}]' account.`,
+        text: "Continue?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Approve"
+        }).then((result) => {
+            if (result.isConfirmed) {
                 $.ajax({
                     url:"/backend/action.php",
                     method: "POST",
-                    data:{getAccountList : 'getAccountList'},
-                    success:function(data)
-                    {
-                        console.log("inventory")
-                        console.log(data);
-                        $(".invBody").html(data);
+                    data:{
+                        approveAccount : 'approveAccount',
+                        id : $(e).data('id')
+                    },
+                    
+                    success:function(data){
+                        data = JSON.parse(data);
+                        if (data.code == 200) {
+                            Swal.fire({
+                                title: "Application approved!",
+                                icon: "success",
+                                timer: 2000,
+                                willClose: () => {
+                                    location.reload();
+                                }
+                            });
+                        }
+                        setTimeout(() => {
+                            $(e).prop("disabled", false);
+                        }, 300);
+                    },
+                    error:function(jqXHR, textStatus, errorThrown){
+                        setTimeout(() => {
+                            $(e).prop("disabled", false);
+                        }, 300);
                     }
                 });
-            }else if(obj.status == "402"){
-
-                Alpine.store('toasts').createToast(
-                    "Username/email already exist.",
-                    'error',
-                    5000
-                )
-            }else{
-                Alpine.store('toasts').createToast(
-                    "Error adding account, please check your values and try again.",
-                    'error',
-                    5000
-                )
             }
-        },
-        error: function (request, status, error) {
-            Alpine.store('toasts').createToast(
-                "Error occured. Please try again",
-                'error',
-                5000
-            )
-        }
-    });
-});
-
-
-var frm2 = $('#editItemInventoryForm');
-frm2.submit(function (e) {
-    e.preventDefault(e);
-    if(!checkEmptyValues("editItemInventoryForm")) {
-        Alpine.store('toasts').createToast(
-            "Required inputs are empty, Please fill them up.",
-            'error',
-            2000
-        );
-        return;
-    }
-
-
-    var formData2 = new FormData($(this)[0]);
-    $.ajax({
-        type: frm2.attr('method'),
-        url: frm2.attr('action'),
-        data: formData2,
-        cache: false,
-        processData: false, 
-        contentType: false,
-        success: function (data) {
-            console.log(data);
-            obj = jQuery.parseJSON(data);
-            console.log(obj);
-            if(obj.status == "200"){
-                Alpine.store('toasts').createToast(
-                    "Item edited successfully",
-                    'success'
-                );
-                editItemInventory.close();
-                $.ajax({
-                    url:"/backend/action.php",
-                    method: "POST",
-                    data:{getInventoryItems : 'getInventoryItems'},
-                    success:function(data)
-                    {
-                        console.log("inventory")
-                        console.log(data);
-                        $(".invBody").html(data);
-                    }
-                });
-
-            }else{
-                Alpine.store('toasts').createToast(
-                    "Error editting item, please check your values and try again.",
-                    'error',
-                    5000
-                )
-            }
-        },
-        error: function (request, status, error) {
-            Alpine.store('toasts').createToast(
-                "Error occured. Please try again",
-                'error',
-                5000
-            )
-        }
-    });
-});
+        });
+}
