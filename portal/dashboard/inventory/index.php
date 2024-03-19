@@ -26,7 +26,7 @@ if (!isset($_SESSION['username'])) {
     <title>Dashboard</title>
 </head>
 
-<body class="h-screen overflow-hidden"> 
+<body class="h-screen overflow-hidden">
     <div class="flex bg-gray-700 h-full" x-data="{ isSidebarExpanded: false }">
         <aside class="flex flex-col h-full text-gray-300 bg-gray-800 transition-all duration-300 ease-in-out" :class="isSidebarExpanded ? 'w-64' : 'w-20'">
             <a href="#" class="h-20 flex items-center px-4 bg-gray-900 hover:text-gray-100 hover:bg-opacity-50 focus:outline-none focus:text-gray-100 focus:bg-opacity-50 overflow-hidden">
@@ -216,4 +216,4 @@ if (!isset($_SESSION['username'])) {
     </div>
 </body>
 
-</html>
+</html> 

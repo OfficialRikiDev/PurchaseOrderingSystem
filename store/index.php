@@ -204,7 +204,7 @@ if (isset($_GET['q']) && strlen($_GET['q']) == 0) {
                         <?php
                             foreach ($store->getAllProducts() as $product) {
                                 echo '
-                                <div :class="isSidebarExpanded ? \'w-64\' : \'w-72\'" class="card card-compact bg-base-100 hover:scale-[1.01] shadow-lg hover:shadow-gray-500/40 duration-300 ease-in-out">
+                                <a href="product?prod_id='.$product['id'].'" :class="isSidebarExpanded ? \'w-64\' : \'w-72\'" class="card card-compact bg-base-100 hover:scale-[1.01] shadow-lg hover:shadow-gray-500/40 duration-300 ease-in-out">
                                     <figure class="h-48"><img src="/assets/src/'.$product['image'].'" /></figure>
                                     <div class="card-body overflow-hidden">
         
@@ -218,7 +218,7 @@ if (isset($_GET['q']) && strlen($_GET['q']) == 0) {
                                         <span class="text-2xl -mt-4 text-warning p-0">₱'.$product['price'].'</span>
                                         <span class="text-xs -my-2 mb-0">20% Off</span>
                                     </div>
-                                </div>
+                                </a>
                                 ';
                             }
                         ?>

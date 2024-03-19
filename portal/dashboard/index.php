@@ -104,15 +104,17 @@ if (!isset($_SESSION['username'])) {
                     <div class="flex items-center" :class="isSidebarExpanded ? 'opacity-100' : 'opacity-0'">
                         <div class="avatar placeholder">
                             <div class="bg-gray-600 text-neutral-content rounded-full w-8 me-2">
-                                <span class="text-2xl"><?php
-                                                        preg_match_all("/[A-Za-z]+|\d+/", $_SESSION['username'], $result);
-                                                        $result = $result[0];
-                                                        if (count($result) > 1) {
-                                                            echo strtoupper(substr($result[0], 0, 1)) . strtoupper(substr($result[1], 0, 1));;
-                                                        } elseif (count($result) == 1) {
-                                                            echo strtoupper(substr($result[0], 0, 1));
-                                                        }
-                                                        ?></span>
+                                <span class="text-2xl">
+                                    <?php
+                                        preg_match_all("/[A-Za-z]+|\d+/", $_SESSION['username'], $result);
+                                        $result = $result[0];
+                                        if (count($result) > 1) {
+                                            echo strtoupper(substr($result[0], 0, 1)) . strtoupper(substr($result[1], 0, 1));;
+                                        } elseif (count($result) == 1) {
+                                            echo strtoupper(substr($result[0], 0, 1));
+                                        }
+                                    ?>
+                                </span>
                             </div>
                         </div>
                         <span class="duration-300 ease-in-out"><?php echo $_SESSION['username'] ?></span>

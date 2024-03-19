@@ -234,7 +234,7 @@ if (!isset($_SESSION['username'])) {
                 </div>
                 <div class="w-2/12 bg-base-100">
                     <main class="flex flex-wrap gap-x-2 gap-y-3 w-full p-4 mx-auto">
-                        <label for="my_modal_1" class="btn btn-sm btn-error w-full">Add Product</label>
+                        <label for="my_modal_1" class="btn btn-sm btn-primary w-full">Add Product</label>
                     </main>
                 </div>
             </div>
@@ -304,6 +304,10 @@ if (!isset($_SESSION['username'])) {
             
         </div>
     </div>
+
+
+
+    
     <div x-data="{ position : 'bottom-right' }" class="absolute top-0 right-0 px-2 mt-3 overflow-x-hidden z-50 max-w-xs"
         :class="{
                 'top-0 right-0': position =='top-right',
