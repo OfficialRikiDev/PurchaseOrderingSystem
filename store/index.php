@@ -139,8 +139,8 @@ if (isset($_GET['q']) && strlen($_GET['q']) == 0) {
                 </div>
             </div>
 
-            <div class="flex w-full overflow-hidden h-full">
-                <div class="w-2/12 bg-base-100 p-4">
+            <div class="flex flex-col lg:flex-row w-full overflow-hidden h-full">
+                <div class="sm:w-full w-full lg:w-2/12 w-3/12 bg-base-100 p-4">
                     <button class="btn btn-sm btn-primary w-full">New Product Bidding</button>
                     <div class="h-full w-full overflow-hidden">
                         <div class="flex w-full flex-col gap-3 my-4 overflow-y-auto h-full">
@@ -162,12 +162,13 @@ if (isset($_GET['q']) && strlen($_GET['q']) == 0) {
                     </div>
 
                 </div>
-                <div class="w-11/12 overflow-y-auto">
-                    <main class="flex flex-wrap flex-row gap-x-2 gap-y-3 w-full p-4 mx-auto">
+                <div class="w-full overflow-y-auto">
+                    <main class="grid  2xl:grid-cols-6 xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-x-2 gap-y-3 p-4 w-full mx-auto">
                         <?php
                         foreach ($store->getAllProducts() as $product) {
-                            echo '
-                                <a href="product?prod_id=' . $product['id'] . '" :class="isSidebarExpanded ? \'w-64\' : \'w-72\'" class="card card-compact bg-base-100 hover:scale-[1.01] shadow-lg hover:shadow-gray-500/40 duration-300 ease-in-out">
+                            for($i =0; $i < 5; $i++) {
+                                echo '
+                                <a href="product?prod_id=' . $product['id'] . '" class="grow card card-compact bg-base-100 hover:scale-[1.01] shadow-lg hover:shadow-gray-500/40 duration-300 ease-in-out">
                                     <figure class="h-48"><img src="/assets/src/' . $product['image'] . '" /></figure>
                                     <div class="card-body overflow-hidden">
         
@@ -183,6 +184,7 @@ if (isset($_GET['q']) && strlen($_GET['q']) == 0) {
                                     </div>
                                 </a>
                                 ';
+                            }
                         }
                         ?>
                     </main>

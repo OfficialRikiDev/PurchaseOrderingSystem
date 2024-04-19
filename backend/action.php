@@ -188,6 +188,17 @@
             return;
         }
 
+        if(isset($_POST['setQuota'])){
+            $amt = mysqli_real_escape_string($database->connection,$_POST['quota']);
+            $date = mysqli_real_escape_string($database->connection,$_POST['quota_date']);
+            if($quota->setMonthlyQuota($amt, $date)){
+                echo json_encode(array('code' => 200, 'message' => 'Success.'));
+            }else{
+                echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+            }
+            return;
+        }
+
 
         if(isset($_POST['submitCart'])){
             $submit = $cart->submitCart();
@@ -203,7 +214,26 @@
 
 
 
+        if(isset($_POST['approvePO'])){
+            $id = mysqli_real_escape_string($database->connection,$_POST['id']);
+            if($data->approvePO($id)){
+                echo json_encode(array('code' => 200, 'message' => 'Success.'));
+            }else{
+                echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+            }
+            return;
+        }
 
+        
+        if(isset($_POST['declinePO'])){
+            $id = mysqli_real_escape_string($database->connection,$_POST['id']);
+            if($data->declinePO($id)){
+                echo json_encode(array('code' => 200, 'message' => 'Success.'));
+            }else{
+                echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+            }
+            return;
+        }
 
 
 

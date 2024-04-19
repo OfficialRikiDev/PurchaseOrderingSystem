@@ -163,5 +163,23 @@
             
             return false;
         }
+
+        function approvePO($id){
+            $key = "UPDATE purchase_orders SET status = 1 WHERE id = $id";
+            $statement = $this->database->prepare($key);
+            return $statement->execute();
+        }
+
+        function declinePO($id){
+            $key = "UPDATE purchase_orders SET status = 2 WHERE id = $id";
+            $statement = $this->database->prepare($key);
+            return $statement->execute();
+        }
+
+        function cancellPO($id){
+            $key = "UPDATE purchase_orders SET status = 3 WHERE id = $id";
+            $statement = $this->database->prepare($key);
+            return $statement->execute();
+        }
     }
 ?>

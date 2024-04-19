@@ -10,6 +10,7 @@
     require_once('backend/classes/product.php');
     require_once('backend/classes/cart.php');
     require_once('backend/classes/budget.php');
+    require_once('backend/classes/quota.php');
     require_once('backend/classes/orders.php');
     require_once 'dompdf/autoload.inc.php'; 
 
@@ -28,6 +29,7 @@
     $cart = new Cart($database->connection);
     $pos = new Orders($database->connection);
     $budget = new Budget($database->connection);
+    $quota = new Quota($database->connection);
     $views = new Views();
 
 ?>

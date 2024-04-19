@@ -25,7 +25,8 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script defer src="/js/Alpine.js"></script>
     <script src="/js/jquery.min.js"></script>
-    <script src="/js/cart.js"></script>
+    <script src="/js/sweetalert2@11.js"></script>pt
+    <script src="/js/activities.js"></script>
     <title>Activities</title>
 </head>
 
@@ -67,7 +68,7 @@ if (!isset($_SESSION['username'])) {
         </aside>
         <div class="flex-1 flex flex-col w-full">
             <header class="h-20 flex items-center justify-between px-6 bg-gray-900">
-                <button class="p-2 -ml-2 mr-2" @click="isSidebarExpanded = !isSidebarExpanded">
+                <button class="p-2 h-20 -ml-2 mr-2" @click="isSidebarExpanded = !isSidebarExpanded">
                     <svg viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 transform" :class="isSidebarExpanded ? 'rotate-180' : 'rotate-0'">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <line x1="4" y1="6" x2="14" y2="6" />
@@ -154,7 +155,7 @@ if (!isset($_SESSION['username'])) {
                                 foreach($list as $l){
                                     echo ' <div class="rounded p-4 border-l-4 border-primary bg-gray-800 w-full">
                                     <div class="h-5 place-content-center text-m">
-                                        '.($l['status'] === 1 ? '<span class="badge badge-success scale-75 badge-xs me-2"></span> Approved ' : ($l['status'] === 2 ? '<span class="badge badge-error scale-75 badge-xs me-2"></span> Declined ' : '<span class="badge badge-info scale-75 badge-xs me-2"></span> Pending ')).'
+                                        '.($l['status'] === 1 ? '<span class="badge badge-success scale-75 badge-xs me-2"></span> Approved ' : ($l['status'] === 2 ? '<span class="badge badge-error scale-75 badge-xs me-2"></span> Declined ' : ($l['status'] === 3 ? '<span class="badge badge-warning scale-75 badge-xs me-2"></span> Cancelled ' : '<span class="badge badge-info scale-75 badge-xs me-2"></span> Pending '))).'
                                     </div>
                                     <div class="flex flex-row">
                                         <div class="flex flex-col mt-4 rounded-lg bg-slate-700 shadow w-10/12 p-4">
@@ -169,10 +170,10 @@ if (!isset($_SESSION['username'])) {
                                         </div>
                                         <div class="flex flex-col w-3/12 gap-2 p-5">
                                             <a href="/portal/dashboard/activities/view-order/?s='.$l['id'].'" class="btn btn-sm btn-outline btn-primary">View Order Details</a>
-                                            '.($_SESSION['role'] == 1 && $l['status'] === 0 ?'<a id="approvePO" class="btn btn-sm btn-success">Approve Request Order</a>
-                                            <a class="btn btn-sm btn-error">Decline Request Order</a>' : 
+                                            '.($_SESSION['role'] == 1 && $l['status'] === 0 ?'<a id="approvePO" onclick="approvePO('.$l['id'].')" class="btn btn-sm btn-success">Approve Request Order</a>
+                                            <a id="declinePO" onclick="declinePO('.$l['id'].')" class="btn btn-sm btn-error">Decline Request Order</a>' : 
                                             ($_SESSION['role'] == 1 ? '
-                                            ': '<a class="btn btn-sm btn-ghost">Cancel Request Order</a>')).'
+                                            ': ($l['status'] === 3 ? '' : '<a  class="btn btn-sm btn-ghost">Cancel Request Order</a>'))).'
                                         </div>
                                     </div>
                                 </div>';
