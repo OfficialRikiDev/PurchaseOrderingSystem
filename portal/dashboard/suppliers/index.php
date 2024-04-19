@@ -1,4 +1,4 @@
-<?php session_start();
+<?php include_once($_SERVER['DOCUMENT_ROOT'] . '/autoload.php');
 if (!isset($_SESSION['username'])) {
     header('Location: /portal/');
 }else{
@@ -45,70 +45,7 @@ if (isset($_GET['q']) && strlen($_GET['q']) == 0) {
                 <span class="ml-2 text-xl font-medium duration-300 ease-in-out" :class="isSidebarExpanded ? 'opacity-100' : 'opacity-0'">Dashboard</span>
             </a>
             <nav class="p-4 space-y-2 font-medium">
-                <a href="/portal/dashboard/" class="flex items-center h-10 px-3 hover:bg-blue-600 hover:bg-opacity-25  rounded-lg transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline">
-                    <i class="text-xl h-6 w-6 fas fa-home"></i>
-                    <span class="ml-2 duration-300 ease-in-out" :class="isSidebarExpanded ? 'opacity-100' : 'opacity-0'">Home</span>
-                </a>
-                <?php if ($_SESSION['role'] == 0) {
-                    echo (
-                        '<a href="#" class="flex items-center  bg-blue-600  h-10 px-3 hover:bg-blue-600 hover:bg-opacity-25 rounded-lg transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline">
-                        <i class="text-xl h-6 w-6 flex-shrink-0 fas fa-users-cog"></i>
-                        <span class="ml-2 duration-300 ease-in-out" :class="isSidebarExpanded ? \'opacity-100\' : \'opacity-0\'">Accounts</span>
-                    </a>
-                    
-                    
-                    ');
-                } elseif ($_SESSION['role'] == 1) {
-                    echo ('
-                    <a href="#" class="flex items-center h-10 px-3 hover:bg-blue-600 hover:bg-opacity-25 rounded-lg transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline">
-                        <i class="text-xl h-6 w-6 flex-shrink-0 fas fa-wallet"></i>
-                        <span class="ml-2 duration-300 ease-in-out" :class="isSidebarExpanded ? \'opacity-100\' : \'opacity-0\'">Budget</span>
-                    </a>
-                    <a href="/portal/dashboard/suppliers" class="flex items-center h-10 px-3  bg-blue-600  hover:bg-blue-600 hover:bg-opacity-25 rounded-lg transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline">
-                        <i class="text-xl h-6 w-6 flex-shrink-0 fas fa-house-user"></i>
-                        <span class="ml-2 duration-300 ease-in-out" :class="isSidebarExpanded ? \'opacity-100\' : \'opacity-0\'">Suppliers</span>
-                    </a>
-                    <a href="#" class="flex items-center h-10 px-3 hover:bg-blue-600 hover:bg-opacity-25 rounded-lg transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline">
-                        <i class="text-xl h-6 w-6 flex-shrink-0 fas fa-history"></i>
-                        <span class="ml-2 duration-300 ease-in-out" :class="isSidebarExpanded ? \'opacity-100\' : \'opacity-0\'">Activities</span>
-                    </a>
-                    <a href="#" class="flex items-center h-10 px-3 hover:bg-blue-600 hover:bg-opacity-25 rounded-lg transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline">
-                        <i class="text-xl h-6 w-6 fas fa-boxes"></i>
-                        <span class="ml-2 duration-300 ease-in-out" :class="isSidebarExpanded ? \'opacity-100\' : \'opacity-0\'">Inventory</span>
-                    </a>
-                    ');
-                } elseif ($_SESSION['role'] == 2) {
-                    echo ('
-                    <a href="#" class="flex items-center h-10 px-3 hover:bg-blue-600 hover:bg-opacity-25 rounded-lg transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline">
-                        <i class="text-xl h-6 w-6 fas fa-comments-dollar"></i>
-                        <span class="ml-2 duration-300 ease-in-out" :class="isSidebarExpanded ? \'opacity-100\' : \'opacity-0\'">Transactions</span>
-                    </a>
-                    ');
-                } elseif ($_SESSION['role'] == 3) {
-                    echo ('
-                    <a href="#" class="flex items-center h-10 px-3 hover:bg-blue-600 hover:bg-opacity-25 rounded-lg transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline">
-                        <i class="text-xl h-6 w-6 flex-shrink-0 fas fa-shopping-cart"></i>
-                        <span class="ml-2 duration-300 ease-in-out" :class="isSidebarExpanded ? \'opacity-100\' : \'opacity-0\'">Orders</span>
-                    </a>
-
-                    <a href="#" class="flex items-center h-10 px-3 hover:bg-blue-600 hover:bg-opacity-25 rounded-lg transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline">
-                        <i class="text-xl h-6 w-6 fas fa-boxes"></i>
-                        <span class="ml-2 duration-300 ease-in-out" :class="isSidebarExpanded ? \'opacity-100\' : \'opacity-0\'">Inventory</span>
-                    </a>
-                    ');
-                } ?>
-                <a href="/store" class="flex items-center h-10 px-3 text-white hover:bg-blue-600 hover:bg-opacity-25 rounded-lg transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline">
-                    <i class="text-xl h-6 w-6 fas fa-store"></i>
-                    <span class="ml-2 duration-300 ease-in-out" :class="isSidebarExpanded ? 'opacity-100' : 'opacity-0'">Store</span>
-                </a>
-                <a href="#" class="flex items-center h-10 px-3 hover:bg-blue-600 hover:bg-opacity-25 rounded-lg transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline">
-                    <i class="text-xl h-6 w-6 fas fa-archive"></i>
-                    <span class="ml-2 duration-300 ease-in-out" :class="isSidebarExpanded ? 'opacity-100' : 'opacity-0'">Reports</span>
-                </a>
-                <a href="#" class="flex items-center h-10 px-3 hover:bg-blue-600 hover:bg-opacity-25 rounded-lg transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline">
-                    <i class="text-xl h-6 w-6 fas fa-cog"></i>
-                    <span class="ml-2 duration-300 ease-in-out" :class="isSidebarExpanded ? 'opacity-100' : 'opacity-0'">Settings</span>
-                </a>
+            <?php $navigations = new Navigations(); $navigations->init(); ?>
             </nav>
             <div class="w-full border-t border-gray-700 p-4 font-medium mt-auto ">
                 <a href="/logout.php" :class="isSidebarExpanded ? 'justify-between' : ''" class="flex items-center h-10 px-3 hover:text-gray-100 hover:bg-gray-600 hover:bg-opacity-25 rounded-lg transition-colors duration-150 ease-in-out focus:outline-none focus:shadow-outline">
@@ -145,25 +82,18 @@ if (isset($_GET['q']) && strlen($_GET['q']) == 0) {
                     </svg>
                 </button>
                 <div class="flex">
-                    <div class="dropdown dropdown-end" x-data="{orders: 1}">
-                        <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                <?php 
+                        if($_SESSION['role'] == 3 || $_SESSION['role'] == 1){
+                            echo '<a href="/store/my/cart" class=" btn btn-ghost btn-circle" x-on:click="cart()">
                             <div class="indicator">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
-                                <span class="badge badge-sm indicator-item" :class="orders > 0 ? 'opacity-100' : 'opacity-0'">3</span>
+                                <span class="badge badge-sm indicator-item" id="num_ord"></span>
                             </div>
-                        </div>
-                        <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
-                            <div class="card-body">
-                                <span class="font-bold text-lg">8 Items</span>
-                                <span class="text-info">Subtotal: $999</span>
-                                <div class="card-actions">
-                                    <button class="btn btn-primary btn-block">View cart</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        </a>';
+                        }
+                    ?>
                     <details class="dropdown dropdown-bottom dropdown-end" x-data="{notifs: 1}">
                         <summary tabindex="0" role="button" class="btn btn-ghost btn-circle">
                             <div class="indicator">

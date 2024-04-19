@@ -26,11 +26,11 @@ if (!isset($_SESSION['username'])) {
     <script defer src="/js/Alpine.js"></script>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/cart.js"></script>
-    <title>Dashboard</title>
+    <title>Activities</title>
 </head>
 
-<body class="h-screen overflow-hidden">
-    <div class="flex bg-gray-700 h-full" x-data="{ isSidebarExpanded: true }">
+<body class="overflow-hidden">
+    <div class="flex bg-gray-700 h-screen" x-data="{ isSidebarExpanded: false }">
         <aside class="flex flex-col h-full text-gray-300 bg-gray-800 transition-all duration-300 ease-in-out" :class="isSidebarExpanded ? 'w-64' : 'w-20'">
             <a href="#" class="h-20 flex items-center px-4 bg-gray-900 hover:text-gray-100 hover:bg-opacity-50 focus:outline-none focus:text-gray-100 focus:bg-opacity-50 overflow-hidden">
                 <img class="h-12 w-12 flex-shrink-0" src="/assets/elpardologo.png" alt="" srcset="">
@@ -144,71 +144,44 @@ if (!isset($_SESSION['username'])) {
 
             </header>
             <main class="flex flex-col p-6 text-white w-full gap-4">
-                <div class="stats stats-vertical lg:stats-horizontal shadow w-full">
-                    <div class="stat ">
-                        <div class="stat-figure text-primary">
-                            <div class="flex">
-                                <div class="mx-4 w-auto flex flex-col border-l-2 border-green-500">
-                                    <div class="-mb-2 ml-2 text-white text-2xl tracking-wide font-semibold">[amount]</div>
-                                    <div class="ml-2 text-xs text-gray-400">units sold or bought</div>
-                                </div>
-                                <div class="w-auto flex flex-col border-l-2 border-green-500">
-                                    <div class="-mb-2 ml-2 text-white text-2xl tracking-wide font-semibold">[amount]</div>
-                                    <div class="ml-2 text-xs text-gray-400">orders</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="stat-title text-gray-400">Today <?php echo date("M d, Y") ?></div>
-                        <div class="stat-value text-success">₱<?php echo number_format($budget->getTodayAllocation(), 2); ?></div>
+                <span class="font-bold text-2xl">Activity List</span>
+                <div class="h-full overflow-hidden">
+                    <div class="flex flex-col gap-3 overflow-y-auto h-full">
+                        <?php 
+                            $list = $pos->getPurchaseOrders();
 
-                        <div class="mt-1 stat-desc">[quota or overall allocation in 1 year]</div>
-                    </div>
-
-
-
-                </div>
-                <div class="stats stats-vertical lg:stats-horizontal shadow w-full">
-                    <div class="stat ">
-                        <div class="stat-figure text-primary">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-8 h-8 stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                        </div>
-                        <div class="stat-title text-gray-400">Orders</div>
-                        <div class="stat-value text-primary"> <?php echo count(json_decode($cart->getCart()));?></div>
-                        <div class="stat-desc">21% more than last month [placeholder]</div>
-                    </div>
-
-                    <div class="stat">
-                        <div class="stat-figure text-secondary">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                            </svg>
-                        </div>
-                        <div class="stat-title text-gray-400">Total Allocation</div>
-                        <div class="stat-value text-secondary flex flex-col">
-                        ₱<?php echo number_format($budget->getAllocated(), 2) ?>
-
-                        </div>
-                        <div class="stat-desc mt-2">21% more than last month [placeholder]</div>
-                    </div>
-
-                    <div class="stat">
-                        <div class="stat-figure text-warning">
-                            <svg viewBox="0 0 24 24" fill="none" class="inline-block w-8 h-8 stroke-current" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
-                                <path d="M19 20H5C3.89543 20 3 19.1046 3 18V9C3 7.89543 3.89543 7 5 7H19C20.1046 7 21 7.89543 21 9V18C21 19.1046 20.1046 20 19 20Z" stroke-width="2"></path>
-                                <path d="M16.5 14C16.2239 14 16 13.7761 16 13.5C16 13.2239 16.2239 13 16.5 13C16.7761 13 17 13.2239 17 13.5C17 13.7761 16.7761 14 16.5 14Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                <path d="M18 7V5.60322C18 4.28916 16.7544 3.33217 15.4847 3.67075L4.48467 6.60409C3.60917 6.83756 3 7.63046 3 8.53656V9" stroke-width="2"></path>
-                            </svg>
-                        </div>
-                        <div class="stat-title text-gray-400">Budget</div>
-                        <div class="stat-value text-warning flex flex-col">
-                            <span class="!text-sm">Used ₱<?php echo number_format($budget->getAllocated(), 2) ?> of ₱<?php echo number_format($budget->getThisMonthBudget()['allocation'], 2) ?></span>
-                            <?php $percentage = ($budget->getAllocated()/$budget->getThisMonthBudget()['allocation']) * 100; ?>
-                            <progress class="mt-1 progress <?php echo ($percentage > 80) ? "progress-error" : ($percentage > 50 ? "progress-warning" : "progress-success"); ?> w-56" value="<?php echo $percentage; ?>" max="100"></progress>
-                        </div>
-                        <div class="stat-desc mt-2">21% more than last month</div>
-                    </div>
+                            if($list){
+                                foreach($list as $l){
+                                    echo ' <div class="rounded p-4 border-l-4 border-primary bg-gray-800 w-full">
+                                    <div class="h-5 place-content-center text-m">
+                                        '.($l['status'] === 1 ? '<span class="badge badge-success scale-75 badge-xs me-2"></span> Approved ' : ($l['status'] === 2 ? '<span class="badge badge-error scale-75 badge-xs me-2"></span> Declined ' : '<span class="badge badge-info scale-75 badge-xs me-2"></span> Pending ')).'
+                                    </div>
+                                    <div class="flex flex-row">
+                                        <div class="flex flex-col mt-4 rounded-lg bg-slate-700 shadow w-10/12 p-4">
+                                            <div class="flex gap-6 p-4 rounded w-full">
+                                                
+                                                <div class="flex flex-col gap-1">
+                                                    <span class="font-bold text-sm">Request Order #'.$l['id'].'</span>
+                                                    <span class="text-xs text-base-content">Date submitted: '.$l['date_created'].'</span>
+                                                    <span class="text-xs text-base-content">Submitted by: '.$data->getAccountById($l['created_by'])['username'].'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col w-3/12 gap-2 p-5">
+                                            <a href="/portal/dashboard/activities/view-order/?s='.$l['id'].'" class="btn btn-sm btn-outline btn-primary">View Order Details</a>
+                                            '.($_SESSION['role'] == 1 && $l['status'] === 0 ?'<a id="approvePO" class="btn btn-sm btn-success">Approve Request Order</a>
+                                            <a class="btn btn-sm btn-error">Decline Request Order</a>' : 
+                                            ($_SESSION['role'] == 1 ? '
+                                            ': '<a class="btn btn-sm btn-ghost">Cancel Request Order</a>')).'
+                                        </div>
+                                    </div>
+                                </div>';
+                                }
+                            }else{
+                                echo 'No actitivies found yet.';
+                            }
+                        ?>
+                    </div>  
                 </div>
             </main>
         </div>

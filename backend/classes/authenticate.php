@@ -19,6 +19,7 @@
                 if($rows['password'] == $password){
                     $_SESSION['username'] = $username;
                     $_SESSION['id'] = $rows['id'];
+                    $_SESSION['email'] = $rows['email'];
                     $_SESSION['role'] = $rows['role'];
                     $_SESSION['ispending'] = $rows['is_pending'];
                     $_SESSION['activated'] = $rows['activated'];
@@ -56,6 +57,7 @@
                     $statement2->bind_param("sssssssssi", $u, $p, $e, $bn, $pn, $country, $st, $city, $state, $zip);
                     if($statement2->execute()){
                         $_SESSION['username'] = $u;
+                        $_SESSION['email'] = $e;
                         $_SESSION['ispending'] = 1;
                         $_SESSION['activated'] = 0;
                         $_SESSION['role'] = 2;  

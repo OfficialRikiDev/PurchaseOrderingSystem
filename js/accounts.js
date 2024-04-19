@@ -64,23 +64,69 @@ $(document).ready(function() {
                     <span class="badge badge-ghost badge-sm">${element.zip_code || "Not set"}</span>
                 </td>
                 <td class="text-center">
-                    <span class="badge badge-ghost badge-sm text-${(element.is_pending || !element.activated ? "[pink]" : "success" )}">${(element.activated ? (element.is_pending ? "Pending for Approval" : "Active" ) : "Not activated")}</span>
+                    <span class="badge badge-ghost badge-sm text-${(element.is_pending || !element.activated ? "[pink]" : "success" )}">${(element.activated ? (element.is_pending ? "Pending for Approval" : "Active" ) : "Inactive")}</span>
                 </td>
                 <td class="flex flex-col gap-2">
                     ${(element.is_pending ? `
                     <button class="btn btn-success btn-xs" onclick="approve(this)" data-business="${element.company_name}" data-username="${element.username}" data-id="${element.id}">Approve</button>
                     <button class="btn btn-error btn-xs">Disapprove</button>
                     ` : 
-                    `<button class="btn btn-outline btn-xs">Edit</button>
-                    <button class="btn btn-error btn-xs">Disable</button>` )}
+                    (element.activated ? `<button class="btn btn-outline btn-xs">Edit</button>
+                    <button onclick="disableSupplierAccount(this, ${element.id})"  data-business="${element.company_name}" data-username="${element.username}" class="btn btn-error btn-xs">Disable</button>` : ``))}
                 </td>
             </tr>`;
-                $('.supplier_list').append(template);
+            $('.supplier_list').append(template);
             });
             
         }
     });
 });
+
+
+function disableSupplierAccount(e, id){
+    Swal.fire({
+        title: `You're about to disable '${$(e).data('username')} [${$(e).data('business')}]' account.`,
+        text: "Continue?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Approve"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url:"/backend/action.php",
+                    method: "POST",
+                    data:{
+                        disableAccount : 'disableAccount',
+                        id : id
+                    },
+                    
+                    success:function(data){
+                        data = JSON.parse(data);
+                        if (data.code == 200) {
+                            Swal.fire({
+                                title: "Account disabled!",
+                                icon: "success",
+                                timer: 2000,
+                                willClose: () => {
+                                    location.reload();
+                                }
+                            });
+                        }
+                        setTimeout(() => {
+                            $(e).prop("disabled", false);
+                        }, 300);
+                    },
+                    error:function(jqXHR, textStatus, errorThrown){
+                        setTimeout(() => {
+                            $(e).prop("disabled", false);
+                        }, 300);
+                    }
+                });
+            }
+        });
+}
 
 function approve(e){
     $(e).prop("disabled", true);

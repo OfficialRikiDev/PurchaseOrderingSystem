@@ -6,7 +6,13 @@
     require_once('backend/classes/authenticate.php');
     require_once('backend/classes/data.php');
     require_once('backend/classes/store.php');
+    require_once('backend/classes/navigations.php');
+    require_once('backend/classes/product.php');
+    require_once('backend/classes/cart.php');
+    require_once('backend/classes/budget.php');
+    require_once('backend/classes/orders.php');
     require_once 'dompdf/autoload.inc.php'; 
+
 
     $database = new Database('localhost', 'root', '', 'transtrack');
     $authenticate = new Authenticate($database->connection);
@@ -18,6 +24,10 @@
     $inventory = new Inventory($database->connection);
     $data = new Data($database->connection);
     $store = new Store($database->connection);
+    $product = new Product($database->connection);
+    $cart = new Cart($database->connection);
+    $pos = new Orders($database->connection);
+    $budget = new Budget($database->connection);
     $views = new Views();
 
 ?>

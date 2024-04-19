@@ -70,6 +70,15 @@
             return;
         }
 
+        if(isset($_POST['disableAccount'])){
+            if($data->disableAccount($_POST['id'])){
+                echo json_encode(array('code' => 200, 'message' => 'Success.'));
+            }else{
+                echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+            }
+            return;
+        }
+
 
         if(isset($_POST['addProductListing'])){
             $name = mysqli_real_escape_string($database->connection,$_POST['product_name']);
@@ -77,14 +86,122 @@
             $supplier = mysqli_real_escape_string($database->connection,$_SESSION['id']);
             $description = mysqli_real_escape_string($database->connection,$_POST['description']);
             $image = $_FILES;
-            if($store->addItem($name, $price, $supplier, $description, $image)){
-                echo json_encode(array('code' => 200, 'message' => 'Success.'));
+            if ($_FILES['image']['error'] == 4 || ($_FILES['image']['size'] == 0 && $_FILES['image']['error'] == 0))
+            {
+                echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+            }else{
+                if($store->addItem($name, $price, $supplier, $description, $image)){
+                    echo json_encode(array('code' => 200, 'message' => 'Success.'));
+                }else{
+                    echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+                }
+            }
+            return;
+        }
+
+        if(isset($_POST['getCarts'])){
+            echo $cart->getCart();
+            return;
+        }
+
+        if(isset($_POST['addToCart'])){
+            $id = mysqli_real_escape_string($database->connection, $_POST['item_id']);
+            $amt = mysqli_real_escape_string($database->connection,$_POST['amount']);
+            if($cart->addToCart($id, $amt)){
+                echo json_encode(array('code' => 200, 'message' => 'Item added to cart.'));
             }else{
                 echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
                 
             }
             return;
         }
+
+
+
+        if(isset($_POST['updateProductCart'])){
+            $id = mysqli_real_escape_string($database->connection, $_POST['item_id']);
+            $amt = mysqli_real_escape_string($database->connection,$_POST['amount']);
+            if($cart->updateCart($id, $amt)){
+                echo json_encode(array('code' => 200, 'message' => 'Item added to cart.'));
+            }else{
+                echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+                
+            }
+            return;
+        }
+
+
+        if(isset($_POST['removeProductCart'])){
+            $id = mysqli_real_escape_string($database->connection, $_POST['item_id']);
+            if($cart->removeItemInCart($id)){
+                echo json_encode(array('code' => 200, 'message' => 'Item added to cart.'));
+            }else{
+                echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+                
+            }
+            return;
+        }
+
+
+        if(isset($_POST['updateProfileAccount'])){
+            $business = mysqli_real_escape_string($database->connection, $_POST['business']);
+            $street = mysqli_real_escape_string($database->connection,$_POST['street']);
+            $phone = mysqli_real_escape_string($database->connection,$_POST['phone']);
+            $country = mysqli_real_escape_string($database->connection,$_POST['country']);
+            $city = mysqli_real_escape_string($database->connection,$_POST['city']);
+            $state = mysqli_real_escape_string($database->connection,$_POST['state']);
+            $zip = mysqli_real_escape_string($database->connection,$_POST['zip']);
+            if($data->updateAccount($business, $street, $phone, $country, $city, $state, $zip)){
+                echo json_encode(array('code' => 200, 'message' => 'Account updated successfully.'));
+            }else{
+                echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+                
+            }
+            return;
+        }
+
+        if(isset($_POST['addDocument'])){
+            $name = mysqli_real_escape_string($database->connection,$_POST['document_name']);
+            $date = mysqli_real_escape_string($database->connection,$_POST['document_date']);
+            $image = $_FILES;
+            if ($_FILES['image']['error'] == 4 || ($_FILES['image']['size'] == 0 && $_FILES['image']['error'] == 0))
+            {
+                echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+            }else{
+                if($data->addDocument($name, $date, $image)){
+                    echo json_encode(array('code' => 200, 'message' => 'Success.'));
+                }else{
+                    echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+                }
+            }
+            return;
+        }   
+
+        if(isset($_POST['setBudget'])){
+            $amt = mysqli_real_escape_string($database->connection,$_POST['budget_allocation']);
+            $date = mysqli_real_escape_string($database->connection,$_POST['budget_date']);
+            if($budget->setMonthlyBudget($amt, $date)){
+                echo json_encode(array('code' => 200, 'message' => 'Success.'));
+            }else{
+                echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+            }
+            return;
+        }
+
+
+        if(isset($_POST['submitCart'])){
+            $submit = $cart->submitCart();
+            if($submit === 3){
+                echo json_encode(array('code' => 402, 'message' => 'Budget Exceeded.'));
+            }else if($submit){
+                echo json_encode(array('code' => 200, 'message' => 'Success.'));
+            }else{
+                echo json_encode(array('code' => 401, 'message' => 'Error occured.'));
+            }
+            return;
+        }
+
+
 
 
 
